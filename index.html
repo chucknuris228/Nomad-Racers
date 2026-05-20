@@ -1,1251 +1,1235 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
-<html>
+<!DOCTYPE html>
+<html lang="en">
 <head>
-  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-  <meta http-equiv="Content-Style-Type" content="text/css">
-  <title></title>
-  <meta name="Generator" content="Cocoa HTML Writer">
-  <meta name="CocoaVersion" content="2685.3">
-  <style type="text/css">
-    p.p1 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px Helvetica}
-    p.p2 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px Helvetica; min-height: 14.0px}
-  </style>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Nomad Racers — F1 STEM Racing</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&amp;family=Inter:wght@300;400;500&display=swap" rel="stylesheet"/>
+<style>
+/* ══════════════════════════════════
+   RESET & BASE
+══════════════════════════════════ */
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --black:#080807;
+  --carbon:#111110;
+  --panel:#161513;
+  --lift:#1e1c18;
+  --border:#242220;
+  --border2:#2e2b25;
+  --gold:#C6A15B;
+  --gold-dim:#7A5A2B;
+  --gold-glow:rgba(198,161,91,0.12);
+  --amber:#E8973A;
+  --white:#F2EDE4;
+  --dim:#5a5448;
+  --mid:#8a8070;
+  --light:#b8ae98;
+}
+html{scroll-behavior:smooth;font-size:16px}
+body{
+  background:var(--black);
+  color:var(--white);
+  font-family:'Inter',sans-serif;
+  font-weight:300;
+  overflow-x:hidden;
+  line-height:1;
+}
+img{display:block;max-width:100%}
+a{text-decoration:none;color:inherit}
+
+.f-display{font-family:'Bebas Neue',sans-serif;letter-spacing:.02em;line-height:.88}
+.f-ui{font-family:'Inter',sans-serif;font-size:.65rem;letter-spacing:.22em;text-transform:uppercase;font-weight:500}
+.f-body{font-family:'Inter',sans-serif;font-size:.93rem;line-height:1.82;font-weight:300}
+
+
+#nav{
+  position:fixed;top:0;left:0;right:0;z-index:999;
+  height:58px;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:0 52px;
+  transition:background .4s,border-color .4s;
+  border-bottom:1px solid transparent;
+}
+#nav.scrolled{
+  background:rgba(8,8,7,0.96);
+  border-color:var(--border);
+  backdrop-filter:blur(12px);
+}
+.nav-brand{
+  display:flex;align-items:center;gap:12px;
+}
+.nav-horsemark{
+  width:28px;height:20px;flex-shrink:0;
+}
+.nav-name{
+  font-family:'Bebas Neue',sans-serif;
+  font-size:1.05rem;letter-spacing:.2em;
+  color:var(--white);
+}
+.nav-name b{color:var(--gold)}
+.nav-items{display:flex;gap:40px;list-style:none}
+.nav-items a{
+  font-size:.62rem;letter-spacing:.22em;text-transform:uppercase;
+  color:var(--dim);font-weight:500;transition:color .2s;
+}
+.nav-items a:hover{color:var(--gold)}
+.nav-right{
+  font-size:.6rem;letter-spacing:.25em;text-transform:uppercase;
+  color:var(--gold-dim);
+}
+
+/* ══════════════════════════════════
+   HERO
+══════════════════════════════════ */
+#hero{
+  position:relative;
+  min-height:100vh;
+  display:flex;flex-direction:column;justify-content:flex-end;
+  overflow:hidden;
+}
+
+.hero-bg{
+  position:absolute;inset:0;
+  background:
+    radial-gradient(ellipse 70% 50% at 65% 45%, rgba(198,161,91,0.06) 0%, transparent 60%),
+    radial-gradient(ellipse 40% 60% at 80% 30%, rgba(232,151,58,0.04) 0%, transparent 50%),
+    linear-gradient(170deg, #0a0906 0%, #060605 60%, #0c0b08 100%);
+}
+
+.hero-lines{
+  position:absolute;inset:0;overflow:hidden;
+}
+.hero-lines::before{
+  content:'';
+  position:absolute;
+  top:0;left:-20%;right:-20%;bottom:0;
+  background:repeating-linear-gradient(
+    -12deg,
+    transparent 0px,
+    transparent 120px,
+    rgba(198,161,91,0.018) 120px,
+    rgba(198,161,91,0.018) 121px
+  );
+  animation:streakMove 8s linear infinite;
+}
+.hero-lines::after{
+  content:'';
+  position:absolute;
+  top:0;left:-20%;right:-20%;bottom:0;
+  background:repeating-linear-gradient(
+    -12deg,
+    transparent 0px,
+    transparent 200px,
+    rgba(198,161,91,0.03) 200px,
+    rgba(198,161,91,0.03) 201px,
+    transparent 201px,
+    transparent 240px,
+    rgba(198,161,91,0.015) 240px,
+    rgba(198,161,91,0.015) 241px
+  );
+  animation:streakMove 12s linear infinite reverse;
+}
+@keyframes streakMove{
+  from{transform:translateX(-8%)}
+  to{transform:translateX(8%)}
+}
+
+
+.hero-ghost{
+  position:absolute;
+  right:-0.04em;
+  bottom:-0.06em;
+  font-family:'Bebas Neue',sans-serif;
+  font-size:clamp(16rem,32vw,44rem);
+  line-height:.85;
+  color:transparent;
+  -webkit-text-stroke:1px rgba(198,161,91,0.045);
+  pointer-events:none;user-select:none;
+  letter-spacing:-.02em;
+}
+
+.sparks{position:absolute;inset:0;pointer-events:none}
+.spark{
+  position:absolute;
+  width:1px;
+  background:linear-gradient(to top, transparent, var(--gold), transparent);
+  opacity:0;
+  animation:sparkFall linear infinite;
+}
+@keyframes sparkFall{
+  0%{opacity:0;transform:translateY(-20px) rotate(var(--r))}
+  10%{opacity:.7}
+  90%{opacity:.3}
+  100%{opacity:0;transform:translateY(var(--d)) rotate(var(--r))}
+}
+
+.hero-content{
+  position:relative;z-index:2;
+  padding:0 52px 84px;
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:0;
+  align-items:flex-end;
+}
+.hero-left{}
+.hero-label{
+  display:flex;align-items:center;gap:14px;
+  margin-bottom:32px;
+}
+.hero-label-line{width:32px;height:1px;background:var(--gold)}
+.hero-label-text{
+  font-size:.62rem;letter-spacing:.3em;text-transform:uppercase;
+  color:var(--gold);font-weight:500;
+}
+h1.hero-title{
+  font-family:'Bebas Neue',sans-serif;
+  font-size:clamp(5.5rem,12vw,15rem);
+  line-height:.86;
+  letter-spacing:.01em;
+  color:var(--white);
+  margin-bottom:0;
+}
+h1.hero-title .gold-line{
+  color:var(--gold);
+  display:block;
+}
+.hero-right{
+  display:flex;flex-direction:column;
+  justify-content:flex-end;
+  padding-bottom:4px;
+  padding-left:48px;
+  border-left:1px solid var(--border);
+  margin-left:52px;
+}
+.hero-sub{
+  font-size:clamp(.85rem,1.1vw,1rem);
+  line-height:1.8;
+  color:var(--mid);
+  max-width:380px;
+  margin-bottom:40px;
+  font-weight:300;
+}
+.hero-sub strong{color:var(--light);font-weight:400}
+.hero-ctas{display:flex;gap:12px}
+
+/* Buttons */
+.btn{
+  font-family:'Inter',sans-serif;
+  font-size:.65rem;letter-spacing:.22em;text-transform:uppercase;
+  font-weight:500;
+  padding:14px 34px;
+  border:1px solid var(--border2);
+  color:var(--mid);
+  cursor:pointer;
+  transition:border-color .2s,color .2s,background .2s;
+  white-space:nowrap;
+  display:inline-flex;align-items:center;gap:10px;
+}
+.btn:hover{border-color:var(--gold);color:var(--gold)}
+.btn-gold{
+  border-color:var(--gold);
+  color:var(--gold);
+}
+.btn-gold:hover{background:var(--gold);color:var(--black)}
+.btn-arrow::after{content:'→';font-size:.8rem;transition:transform .2s}
+.btn-arrow:hover::after{transform:translateX(4px)}
+
+/* scroll indicator */
+.hero-scroll{
+  position:absolute;bottom:36px;left:50%;transform:translateX(-50%);
+  display:flex;flex-direction:column;align-items:center;gap:8px;
+  z-index:2;
+}
+.hero-scroll-line{
+  width:1px;height:40px;
+  background:linear-gradient(to bottom,var(--gold),transparent);
+  animation:scrollPulse 2s ease-in-out infinite;
+}
+.hero-scroll-text{
+  font-size:.55rem;letter-spacing:.3em;text-transform:uppercase;color:var(--gold-dim);
+  writing-mode:horizontal-tb;
+}
+@keyframes scrollPulse{0%,100%{opacity:.3}50%{opacity:1}}
+
+/* Bottom bar */
+.hero-bar{
+  position:absolute;bottom:0;left:0;right:0;z-index:3;
+  height:1px;background:linear-gradient(90deg,transparent,var(--border),var(--border2),var(--border),transparent);
+}
+
+/* ══════════════════════════════════
+   MARQUEE STRIP
+══════════════════════════════════ */
+.marquee-strip{
+  border-top:1px solid var(--border);
+  border-bottom:1px solid var(--border);
+  height:52px;
+  overflow:hidden;
+  display:flex;align-items:center;
+  background:var(--carbon);
+}
+.marquee-track{
+  display:flex;align-items:center;
+  gap:0;
+  animation:marqueeTick 22s linear infinite;
+  white-space:nowrap;
+}
+.marquee-item{
+  display:inline-flex;align-items:center;
+  padding:0 40px;
+  font-family:'Bebas Neue',sans-serif;
+  font-size:1.1rem;letter-spacing:.25em;
+  color:var(--gold);
+  border-right:1px solid var(--border);
+  height:52px;
+}
+.marquee-dot{display:inline-block;width:4px;height:4px;background:var(--gold-dim);border-radius:50%;margin:0 8px;vertical-align:middle}
+@keyframes marqueeTick{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+
+.sec{border-bottom:1px solid var(--border)}
+.sec-head{padding:80px 52px 64px}
+.sec-eyebrow{
+  display:flex;align-items:center;gap:12px;
+  font-size:.6rem;letter-spacing:.28em;text-transform:uppercase;
+  color:var(--dim);font-weight:500;
+  margin-bottom:20px;
+}
+.sec-eyebrow::before{content:'';width:14px;height:1px;background:var(--dim)}
+h2.sec-title{
+  font-family:'Bebas Neue',sans-serif;
+  font-size:clamp(3.2rem,7vw,9rem);
+  line-height:.88;
+  color:var(--white);
+  letter-spacing:.01em;
+}
+h2.sec-title em{color:var(--gold);font-style:normal}
+
+/* reveal */
+.reveal{
+  opacity:0;
+  transform:translateY(24px);
+  transition:opacity .7s cubic-bezier(.2,0,.1,1),transform .7s cubic-bezier(.2,0,.1,1);
+}
+.reveal.on{opacity:1;transform:translateY(0)}
+.reveal-d1{transition-delay:.1s}
+.reveal-d2{transition-delay:.2s}
+.reveal-d3{transition-delay:.3s}
+.reveal-d4{transition-delay:.4s}
+.reveal-d5{transition-delay:.5s}
+
+#about{background:var(--carbon)}
+.about-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:1px;
+  background:var(--border);
+}
+.about-col{
+  background:var(--carbon);
+  padding:56px 52px;
+}
+.about-col p{
+  font-size:.93rem;line-height:1.85;color:var(--mid);
+  margin-bottom:20px;
+}
+.about-col p:last-child{margin:0}
+.about-col strong{color:var(--light);font-weight:400}
+.about-quote{
+  font-family:'Bebas Neue',sans-serif;
+  font-size:clamp(1.6rem,3vw,3rem);
+  line-height:1.1;
+  color:var(--gold);
+  border-left:2px solid var(--gold-dim);
+  padding-left:22px;
+  margin-top:12px;
+  letter-spacing:.02em;
+}
+
+/* airflow telemetry line art */
+.airflow-art{
+  position:relative;height:140px;margin-top:40px;
+  overflow:hidden;
+}
+.airflow-art svg{width:100%;height:100%;opacity:.6}
+
+/* kpi row */
+.kpi-row{
+  display:grid;grid-template-columns:repeat(4,1fr);
+  gap:1px;background:var(--border);
+  border-top:1px solid var(--border);
+}
+.kpi{background:var(--carbon);padding:44px 40px}
+.kpi-val{
+  font-family:'Bebas Neue',sans-serif;
+  font-size:4rem;color:var(--gold);
+  line-height:1;display:block;margin-bottom:10px;
+}
+.kpi-label{
+  font-size:.6rem;letter-spacing:.2em;text-transform:uppercase;color:var(--dim);
+}
+
+/* ══════════════════════════════════
+   TEAM
+══════════════════════════════════ */
+#team{background:var(--black)}
+.team-editorial{
+  display:grid;
+  grid-template-columns:repeat(5,1fr);
+  gap:1px;
+  background:var(--border);
+}
+.member{
+  background:var(--black);
+  position:relative;overflow:hidden;
+  cursor:default;
+}
+/* Photo area */
+.member-photo{
+  position:relative;
+  aspect-ratio:2/3;
+  background:var(--panel);
+  overflow:hidden;
+  display:flex;align-items:center;justify-content:center;
+}
+/* grayscale ghost initials as stand-in */
+.member-initials{
+  font-family:'Bebas Neue',sans-serif;
+  font-size:5rem;
+  color:rgba(198,161,91,.08);
+  letter-spacing:.05em;
+  user-select:none;
+  transition:color .4s;
+}
+.member:hover .member-initials{color:rgba(198,161,91,.15)}
+
+/* photo gradient overlay */
+.member-photo::after{
+  content:'';
+  position:absolute;inset:0;
+  background:linear-gradient(to bottom,
+    rgba(8,8,7,0) 30%,
+    rgba(8,8,7,.7) 70%,
+    rgba(8,8,7,.97) 100%
+  );
+  transition:opacity .4s;
+}
+.member:hover .member-photo::after{opacity:.85}
+
+/* gold accent line */
+.member-accent{
+  position:absolute;left:0;top:0;
+  width:2px;height:0;
+  background:var(--gold);
+  transition:height .4s cubic-bezier(.2,0,.1,1);
+  z-index:3;
+}
+.member:hover .member-accent{height:100%}
+
+/* member info */
+.member-info{
+  padding:20px 24px 28px;
+  position:relative;z-index:2;
+}
+.member-name{
+  font-family:'Bebas Neue',sans-serif;
+  font-size:1.6rem;letter-spacing:.04em;
+  color:var(--white);display:block;
+  margin-bottom:4px;
+}
+.member:hover .member-name{color:var(--gold)}
+.member-role{
+  font-size:.58rem;letter-spacing:.18em;text-transform:uppercase;
+  color:var(--gold-dim);display:block;
+  margin-bottom:12px;line-height:1.6;
+  transition:color .3s;
+}
+.member:hover .member-role{color:var(--gold)}
+.member-desc{
+  font-size:.78rem;line-height:1.65;color:var(--mid);
+  max-height:0;overflow:hidden;
+  transition:max-height .4s cubic-bezier(.2,0,.1,1),opacity .3s;
+  opacity:0;
+}
+.member:hover .member-desc{max-height:120px;opacity:1}
+
+/* ══════════════════════════════════
+   CAR / ENGINEERING
+══════════════════════════════════ */
+#car{background:var(--carbon)}
+.car-grid{
+  display:grid;
+  grid-template-columns:1fr 340px;
+  gap:1px;background:var(--border);
+}
+.car-vis{
+  background:var(--panel);
+  position:relative;
+  display:flex;align-items:center;justify-content:center;
+  min-height:480px;
+  padding:60px;
+  overflow:hidden;
+}
+/* technical grid overlay */
+.car-vis::before{
+  content:'';
+  position:absolute;inset:0;
+  background-image:
+    linear-gradient(rgba(198,161,91,.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(198,161,91,.04) 1px, transparent 1px);
+  background-size:40px 40px;
+}
+/* corner bracket marks */
+.car-vis::after{
+  content:'';
+  position:absolute;
+  top:24px;left:24px;right:24px;bottom:24px;
+  border:1px solid rgba(198,161,91,.08);
+  pointer-events:none;
+}
+.car-corner{
+  position:absolute;width:20px;height:20px;
+  border-color:var(--gold);border-style:solid;
+  border-width:0;
+}
+.car-corner.tl{top:24px;left:24px;border-top-width:1px;border-left-width:1px}
+.car-corner.tr{top:24px;right:24px;border-top-width:1px;border-right-width:1px}
+.car-corner.bl{bottom:24px;left:24px;border-bottom-width:1px;border-left-width:1px}
+.car-corner.br{bottom:24px;right:24px;border-bottom-width:1px;border-right-width:1px}
+.car-label-tag{
+  position:absolute;
+  font-size:.55rem;letter-spacing:.2em;text-transform:uppercase;
+  color:var(--gold-dim);font-weight:500;
+}
+.car-label-tag::before{content:'◆';margin-right:6px;font-size:.45rem}
+
+.car-specs{background:var(--black)}
+.spec-row{
+  padding:22px 36px;
+  border-bottom:1px solid var(--border);
+  display:flex;justify-content:space-between;align-items:center;
+  transition:background .15s;
+}
+.spec-row:last-child{border:none}
+.spec-row:hover{background:var(--lift)}
+.spec-key{font-size:.62rem;letter-spacing:.16em;text-transform:uppercase;color:var(--dim);font-weight:500}
+.spec-val{font-size:.85rem;color:var(--light);font-weight:400;text-align:right}
+
+/* ══════════════════════════════════
+   STATS / PERFORMANCE
+══════════════════════════════════ */
+#stats{background:var(--black)}
+.stats-inner{padding:80px 52px}
+.stats-grid{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:1px;background:var(--border);
+  margin-top:60px;
+}
+.stat-block{
+  background:var(--carbon);
+  padding:52px 44px;
+  position:relative;overflow:hidden;
+  transition:background .2s;
+}
+.stat-block:hover{background:var(--panel)}
+.stat-block::after{
+  content:'';position:absolute;bottom:0;left:0;right:0;
+  height:1px;background:var(--border);transition:background .25s;
+}
+.stat-block:hover::after{background:var(--gold)}
+.stat-num{
+  font-family:'Bebas Neue',sans-serif;
+  font-size:clamp(3.5rem,7vw,7rem);
+  color:var(--gold);line-height:1;
+  display:block;margin-bottom:12px;
+  letter-spacing:.01em;
+}
+.stat-unit{
+  font-size:2rem;color:var(--gold-dim);
+}
+.stat-desc{font-size:.8rem;line-height:1.7;color:var(--mid);margin-top:4px}
+.stat-label{
+  font-size:.6rem;letter-spacing:.22em;text-transform:uppercase;
+  color:var(--dim);margin-bottom:16px;display:block;
+}
+/* animated bar */
+.stat-bar-wrap{
+  margin-top:24px;
+  height:1px;background:var(--border2);
+  position:relative;overflow:hidden;
+}
+.stat-bar{
+  position:absolute;top:0;left:0;height:100%;
+  background:linear-gradient(90deg,var(--gold-dim),var(--gold));
+  width:0;transition:width 1.4s cubic-bezier(.2,0,.1,1);
+}
+
+/* ══════════════════════════════════
+   SPONSORS
+══════════════════════════════════ */
+#sponsors{background:var(--carbon)}
+.sponsors-inner{padding:80px 52px}
+.sp-grid{
+  display:flex;flex-wrap:wrap;
+  gap:1px;background:var(--border);
+  margin-top:60px;
+}
+.sp-slot{
+  background:var(--black);
+  flex:1;min-width:200px;
+  padding:48px 40px;
+  display:flex;flex-direction:column;align-items:flex-start;
+  justify-content:center;
+  transition:background .2s;
+  position:relative;
+}
+.sp-slot::after{
+  content:'';position:absolute;bottom:0;left:0;right:0;
+  height:1px;background:var(--border);transition:background .2s;
+}
+.sp-slot:hover{background:var(--panel)}
+.sp-slot:hover::after{background:var(--gold)}
+.sp-tier{
+  font-size:.55rem;letter-spacing:.25em;text-transform:uppercase;
+  color:var(--gold-dim);margin-bottom:10px;font-weight:500;
+}
+.sp-name{
+  font-family:'Bebas Neue',sans-serif;
+  font-size:1.4rem;letter-spacing:.08em;text-transform:uppercase;
+  color:var(--mid);transition:color .2s;
+}
+.sp-slot:hover .sp-name{color:var(--gold)}
+.sp-open .sp-name{
+  font-size:.65rem;letter-spacing:.2em;
+  color:var(--border2);font-family:'Inter',sans-serif;font-weight:500;
+}
+.sp-open:hover .sp-name{color:var(--gold-dim)}
+
+/* ══════════════════════════════════
+   CONNECT
+══════════════════════════════════ */
+#connect{background:var(--black)}
+.connect-grid{
+  display:grid;grid-template-columns:1fr 1fr;
+  gap:1px;background:var(--border);
+}
+.cg-col{background:var(--black);padding:64px 52px}
+.soc-list{list-style:none;border-top:1px solid var(--border);margin-top:40px}
+.soc-item a{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:20px 0;border-bottom:1px solid var(--border);
+  transition:padding-left .2s;
+}
+.soc-item a:hover{padding-left:16px}
+.soc-item a:hover .soc-platform{color:var(--gold)}
+.soc-item a:hover .soc-arrow{color:var(--gold)}
+.soc-platform{
+  font-family:'Bebas Neue',sans-serif;
+  font-size:1.2rem;letter-spacing:.06em;text-transform:uppercase;
+  color:var(--white);transition:color .2s;
+}
+.soc-handle{font-size:.75rem;color:var(--dim)}
+.soc-arrow{color:var(--dim);transition:color .2s;font-size:1rem}
+
+.cg-school-label{
+  font-size:.58rem;letter-spacing:.28em;text-transform:uppercase;color:var(--dim);margin-bottom:8px;
+}
+.cg-school-name{
+  font-family:'Bebas Neue',sans-serif;
+  font-size:2.5rem;letter-spacing:.04em;
+  color:var(--gold);display:block;margin-bottom:32px;
+}
+.cg-col p{font-size:.9rem;line-height:1.85;color:var(--mid);margin-bottom:32px}
+.cg-col strong{color:var(--light);font-weight:400}
+
+/* ══════════════════════════════════
+   FOOTER
+══════════════════════════════════ */
+footer{
+  background:var(--carbon);
+  border-top:1px solid var(--border);
+  padding:48px 52px 36px;
+}
+.footer-top{
+  display:flex;justify-content:space-between;align-items:flex-start;
+  margin-bottom:48px;
+  padding-bottom:40px;
+  border-bottom:1px solid var(--border);
+}
+.footer-brand .name{
+  font-family:'Bebas Neue',sans-serif;
+  font-size:1.2rem;letter-spacing:.2em;color:var(--white);
+}
+.footer-brand .name b{color:var(--gold)}
+.footer-brand .school{
+  font-size:.6rem;letter-spacing:.2em;text-transform:uppercase;
+  color:var(--dim);margin-top:8px;
+}
+.footer-quote{
+  max-width:440px;
+  font-size:.88rem;line-height:1.8;
+  color:var(--mid);font-style:italic;
+  text-align:right;
+}
+.footer-quote::before{content:'"';color:var(--gold);font-size:1.4rem;font-style:normal}
+.footer-quote::after{content:'"';color:var(--gold);font-size:1.4rem;font-style:normal}
+.footer-bottom{
+  display:flex;justify-content:space-between;align-items:center;
+}
+.footer-copy{font-size:.58rem;letter-spacing:.18em;text-transform:uppercase;color:var(--border2)}
+.footer-tagline{
+  font-family:'Bebas Neue',sans-serif;
+  font-size:.9rem;letter-spacing:.25em;color:var(--gold-dim);
+}
+
+/* ══════════════════════════════════
+   RESPONSIVE
+══════════════════════════════════ */
+@media(max-width:1100px){
+  .hero-content{grid-template-columns:1fr;gap:40px}
+  .hero-right{border-left:none;padding-left:0;margin-left:0;border-top:1px solid var(--border);padding-top:32px}
+  .about-grid,.car-grid,.connect-grid{grid-template-columns:1fr}
+  .team-editorial{grid-template-columns:repeat(3,1fr)}
+  .kpi-row{grid-template-columns:1fr 1fr}
+  .stats-grid{grid-template-columns:1fr 1fr}
+  #nav{padding:0 24px}
+  .nav-items{display:none}
+  .nav-right{display:none}
+  .sec-head,.stats-inner,.sponsors-inner{padding:60px 24px}
+  .hero-content{padding:0 24px 64px}
+}
+@media(max-width:700px){
+  .team-editorial{grid-template-columns:1fr 1fr}
+  .stats-grid{grid-template-columns:1fr}
+  .kpi-row{grid-template-columns:1fr 1fr}
+  .about-col{padding:40px 24px}
+  .cg-col{padding:48px 24px}
+  footer{padding:40px 24px 28px}
+  .footer-top{flex-direction:column;gap:24px}
+  .footer-quote{text-align:left}
+  .footer-bottom{flex-direction:column;gap:12px;text-align:center}
+}
+@media(max-width:460px){
+  .team-editorial{grid-template-columns:1fr}
+  .kpi-row{grid-template-columns:1fr}
+}
+</style>
 </head>
 <body>
-<p class="p1">&lt;!DOCTYPE html&gt;</p>
-<p class="p1">&lt;html lang="en"&gt;</p>
-<p class="p1">&lt;head&gt;</p>
-<p class="p1">&lt;meta charset="UTF-8"/&gt;</p>
-<p class="p1">&lt;meta name="viewport" content="width=device-width,initial-scale=1.0"/&gt;</p>
-<p class="p1">&lt;title&gt;Nomad Racers — F1 STEM Racing&lt;/title&gt;</p>
-<p class="p1">&lt;link rel="preconnect" href="https://fonts.googleapis.com"/&gt;</p>
-<p class="p1">&lt;link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&amp;amp;family=Inter:wght@300;400;500&amp;display=swap" rel="stylesheet"/&gt;</p>
-<p class="p1">&lt;style&gt;</p>
-<p class="p1">/* ══════════════════════════════════</p>
-<p class="p1"><span class="Apple-converted-space">   </span>RESET &amp; BASE</p>
-<p class="p1">══════════════════════════════════ */</p>
-<p class="p1">*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}</p>
-<p class="p1">:root{</p>
-<p class="p1"><span class="Apple-converted-space">  </span>--black:#080807;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>--carbon:#111110;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>--panel:#161513;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>--lift:#1e1c18;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>--border:#242220;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>--border2:#2e2b25;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>--gold:#C6A15B;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>--gold-dim:#7A5A2B;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>--gold-glow:rgba(198,161,91,0.12);</p>
-<p class="p1"><span class="Apple-converted-space">  </span>--amber:#E8973A;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>--white:#F2EDE4;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>--dim:#5a5448;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>--mid:#8a8070;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>--light:#b8ae98;</p>
-<p class="p1">}</p>
-<p class="p1">html{scroll-behavior:smooth;font-size:16px}</p>
-<p class="p1">body{</p>
-<p class="p1"><span class="Apple-converted-space">  </span>background:var(--black);</p>
-<p class="p1"><span class="Apple-converted-space">  </span>color:var(--white);</p>
-<p class="p1"><span class="Apple-converted-space">  </span>font-family:'Inter',sans-serif;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>font-weight:300;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>overflow-x:hidden;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>line-height:1;</p>
-<p class="p1">}</p>
-<p class="p1">img{display:block;max-width:100%}</p>
-<p class="p1">a{text-decoration:none;color:inherit}</p>
-<p class="p2"><br></p>
-<p class="p1">.f-display{font-family:'Bebas Neue',sans-serif;letter-spacing:.02em;line-height:.88}</p>
-<p class="p1">.f-ui{font-family:'Inter',sans-serif;font-size:.65rem;letter-spacing:.22em;text-transform:uppercase;font-weight:500}</p>
-<p class="p1">.f-body{font-family:'Inter',sans-serif;font-size:.93rem;line-height:1.82;font-weight:300}</p>
-<p class="p2"><br></p>
-<p class="p2"><br></p>
-<p class="p1">#nav{</p>
-<p class="p1"><span class="Apple-converted-space">  </span>position:fixed;top:0;left:0;right:0;z-index:999;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>height:58px;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>display:flex;align-items:center;justify-content:space-between;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>padding:0 52px;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>transition:background .4s,border-color .4s;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>border-bottom:1px solid transparent;</p>
-<p class="p1">}</p>
-<p class="p1">#nav.scrolled{</p>
-<p class="p1"><span class="Apple-converted-space">  </span>background:rgba(8,8,7,0.96);</p>
-<p class="p1"><span class="Apple-converted-space">  </span>border-color:var(--border);</p>
-<p class="p1"><span class="Apple-converted-space">  </span>backdrop-filter:blur(12px);</p>
-<p class="p1">}</p>
-<p class="p1">.nav-brand{</p>
-<p class="p1"><span class="Apple-converted-space">  </span>display:flex;align-items:center;gap:12px;</p>
-<p class="p1">}</p>
-<p class="p1">.nav-horsemark{</p>
-<p class="p1"><span class="Apple-converted-space">  </span>width:28px;height:20px;flex-shrink:0;</p>
-<p class="p1">}</p>
-<p class="p1">.nav-name{</p>
-<p class="p1"><span class="Apple-converted-space">  </span>font-family:'Bebas Neue',sans-serif;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>font-size:1.05rem;letter-spacing:.2em;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>color:var(--white);</p>
-<p class="p1">}</p>
-<p class="p1">.nav-name b{color:var(--gold)}</p>
-<p class="p1">.nav-items{display:flex;gap:40px;list-style:none}</p>
-<p class="p1">.nav-items a{</p>
-<p class="p1"><span class="Apple-converted-space">  </span>font-size:.62rem;letter-spacing:.22em;text-transform:uppercase;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>color:var(--dim);font-weight:500;transition:color .2s;</p>
-<p class="p1">}</p>
-<p class="p1">.nav-items a:hover{color:var(--gold)}</p>
-<p class="p1">.nav-right{</p>
-<p class="p1"><span class="Apple-converted-space">  </span>font-size:.6rem;letter-spacing:.25em;text-transform:uppercase;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>color:var(--gold-dim);</p>
-<p class="p1">}</p>
-<p class="p2"><br></p>
-<p class="p1">/* ══════════════════════════════════</p>
-<p class="p1"><span class="Apple-converted-space">   </span>HERO</p>
-<p class="p1">══════════════════════════════════ */</p>
-<p class="p1">#hero{</p>
-<p class="p1"><span class="Apple-converted-space">  </span>position:relative;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>min-height:100vh;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>display:flex;flex-direction:column;justify-content:flex-end;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>overflow:hidden;</p>
-<p class="p1">}</p>
-<p class="p2"><br></p>
-<p class="p1">.hero-bg{</p>
-<p class="p1"><span class="Apple-converted-space">  </span>position:absolute;inset:0;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>background:</p>
-<p class="p1"><span class="Apple-converted-space">    </span>radial-gradient(ellipse 70% 50% at 65% 45%, rgba(198,161,91,0.06) 0%, transparent 60%),</p>
-<p class="p1"><span class="Apple-converted-space">    </span>radial-gradient(ellipse 40% 60% at 80% 30%, rgba(232,151,58,0.04) 0%, transparent 50%),</p>
-<p class="p1"><span class="Apple-converted-space">    </span>linear-gradient(170deg, #0a0906 0%, #060605 60%, #0c0b08 100%);</p>
-<p class="p1">}</p>
-<p class="p2"><br></p>
-<p class="p1">.hero-lines{</p>
-<p class="p1"><span class="Apple-converted-space">  </span>position:absolute;inset:0;overflow:hidden;</p>
-<p class="p1">}</p>
-<p class="p1">.hero-lines::before{</p>
-<p class="p1"><span class="Apple-converted-space">  </span>content:'';</p>
-<p class="p1"><span class="Apple-converted-space">  </span>position:absolute;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>top:0;left:-20%;right:-20%;bottom:0;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>background:repeating-linear-gradient(</p>
-<p class="p1"><span class="Apple-converted-space">    </span>-12deg,</p>
-<p class="p1"><span class="Apple-converted-space">    </span>transparent 0px,</p>
-<p class="p1"><span class="Apple-converted-space">    </span>transparent 120px,</p>
-<p class="p1"><span class="Apple-converted-space">    </span>rgba(198,161,91,0.018) 120px,</p>
-<p class="p1"><span class="Apple-converted-space">    </span>rgba(198,161,91,0.018) 121px</p>
-<p class="p1"><span class="Apple-converted-space">  </span>);</p>
-<p class="p1"><span class="Apple-converted-space">  </span>animation:streakMove 8s linear infinite;</p>
-<p class="p1">}</p>
-<p class="p1">.hero-lines::after{</p>
-<p class="p1"><span class="Apple-converted-space">  </span>content:'';</p>
-<p class="p1"><span class="Apple-converted-space">  </span>position:absolute;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>top:0;left:-20%;right:-20%;bottom:0;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>background:repeating-linear-gradient(</p>
-<p class="p1"><span class="Apple-converted-space">    </span>-12deg,</p>
-<p class="p1"><span class="Apple-converted-space">    </span>transparent 0px,</p>
-<p class="p1"><span class="Apple-converted-space">    </span>transparent 200px,</p>
-<p class="p1"><span class="Apple-converted-space">    </span>rgba(198,161,91,0.03) 200px,</p>
-<p class="p1"><span class="Apple-converted-space">    </span>rgba(198,161,91,0.03) 201px,</p>
-<p class="p1"><span class="Apple-converted-space">    </span>transparent 201px,</p>
-<p class="p1"><span class="Apple-converted-space">    </span>transparent 240px,</p>
-<p class="p1"><span class="Apple-converted-space">    </span>rgba(198,161,91,0.015) 240px,</p>
-<p class="p1"><span class="Apple-converted-space">    </span>rgba(198,161,91,0.015) 241px</p>
-<p class="p1"><span class="Apple-converted-space">  </span>);</p>
-<p class="p1"><span class="Apple-converted-space">  </span>animation:streakMove 12s linear infinite reverse;</p>
-<p class="p1">}</p>
-<p class="p1">@keyframes streakMove{</p>
-<p class="p1"><span class="Apple-converted-space">  </span>from{transform:translateX(-8%)}</p>
-<p class="p1"><span class="Apple-converted-space">  </span>to{transform:translateX(8%)}</p>
-<p class="p1">}</p>
-<p class="p2"><br></p>
-<p class="p2"><br></p>
-<p class="p1">.hero-ghost{</p>
-<p class="p1"><span class="Apple-converted-space">  </span>position:absolute;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>right:-0.04em;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>bottom:-0.06em;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>font-family:'Bebas Neue',sans-serif;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>font-size:clamp(16rem,32vw,44rem);</p>
-<p class="p1"><span class="Apple-converted-space">  </span>line-height:.85;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>color:transparent;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>-webkit-text-stroke:1px rgba(198,161,91,0.045);</p>
-<p class="p1"><span class="Apple-converted-space">  </span>pointer-events:none;user-select:none;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>letter-spacing:-.02em;</p>
-<p class="p1">}</p>
-<p class="p2"><br></p>
-<p class="p1">.sparks{position:absolute;inset:0;pointer-events:none}</p>
-<p class="p1">.spark{</p>
-<p class="p1"><span class="Apple-converted-space">  </span>position:absolute;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>width:1px;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>background:linear-gradient(to top, transparent, var(--gold), transparent);</p>
-<p class="p1"><span class="Apple-converted-space">  </span>opacity:0;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>animation:sparkFall linear infinite;</p>
-<p class="p1">}</p>
-<p class="p1">@keyframes sparkFall{</p>
-<p class="p1"><span class="Apple-converted-space">  </span>0%{opacity:0;transform:translateY(-20px) rotate(var(--r))}</p>
-<p class="p1"><span class="Apple-converted-space">  </span>10%{opacity:.7}</p>
-<p class="p1"><span class="Apple-converted-space">  </span>90%{opacity:.3}</p>
-<p class="p1"><span class="Apple-converted-space">  </span>100%{opacity:0;transform:translateY(var(--d)) rotate(var(--r))}</p>
-<p class="p1">}</p>
-<p class="p2"><br></p>
-<p class="p1">.hero-content{</p>
-<p class="p1"><span class="Apple-converted-space">  </span>position:relative;z-index:2;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>padding:0 52px 84px;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>display:grid;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>grid-template-columns:1fr 1fr;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>gap:0;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>align-items:flex-end;</p>
-<p class="p1">}</p>
-<p class="p1">.hero-left{}</p>
-<p class="p1">.hero-label{</p>
-<p class="p1"><span class="Apple-converted-space">  </span>display:flex;align-items:center;gap:14px;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>margin-bottom:32px;</p>
-<p class="p1">}</p>
-<p class="p1">.hero-label-line{width:32px;height:1px;background:var(--gold)}</p>
-<p class="p1">.hero-label-text{</p>
-<p class="p1"><span class="Apple-converted-space">  </span>font-size:.62rem;letter-spacing:.3em;text-transform:uppercase;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>color:var(--gold);font-weight:500;</p>
-<p class="p1">}</p>
-<p class="p1">h1.hero-title{</p>
-<p class="p1"><span class="Apple-converted-space">  </span>font-family:'Bebas Neue',sans-serif;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>font-size:clamp(5.5rem,12vw,15rem);</p>
-<p class="p1"><span class="Apple-converted-space">  </span>line-height:.86;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>letter-spacing:.01em;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>color:var(--white);</p>
-<p class="p1"><span class="Apple-converted-space">  </span>margin-bottom:0;</p>
-<p class="p1">}</p>
-<p class="p1">h1.hero-title .gold-line{</p>
-<p class="p1"><span class="Apple-converted-space">  </span>color:var(--gold);</p>
-<p class="p1"><span class="Apple-converted-space">  </span>display:block;</p>
-<p class="p1">}</p>
-<p class="p1">.hero-right{</p>
-<p class="p1"><span class="Apple-converted-space">  </span>display:flex;flex-direction:column;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>justify-content:flex-end;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>padding-bottom:4px;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>padding-left:48px;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>border-left:1px solid var(--border);</p>
-<p class="p1"><span class="Apple-converted-space">  </span>margin-left:52px;</p>
-<p class="p1">}</p>
-<p class="p1">.hero-sub{</p>
-<p class="p1"><span class="Apple-converted-space">  </span>font-size:clamp(.85rem,1.1vw,1rem);</p>
-<p class="p1"><span class="Apple-converted-space">  </span>line-height:1.8;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>color:var(--mid);</p>
-<p class="p1"><span class="Apple-converted-space">  </span>max-width:380px;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>margin-bottom:40px;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>font-weight:300;</p>
-<p class="p1">}</p>
-<p class="p1">.hero-sub strong{color:var(--light);font-weight:400}</p>
-<p class="p1">.hero-ctas{display:flex;gap:12px}</p>
-<p class="p2"><br></p>
-<p class="p1">/* Buttons */</p>
-<p class="p1">.btn{</p>
-<p class="p1"><span class="Apple-converted-space">  </span>font-family:'Inter',sans-serif;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>font-size:.65rem;letter-spacing:.22em;text-transform:uppercase;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>font-weight:500;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>padding:14px 34px;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>border:1px solid var(--border2);</p>
-<p class="p1"><span class="Apple-converted-space">  </span>color:var(--mid);</p>
-<p class="p1"><span class="Apple-converted-space">  </span>cursor:pointer;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>transition:border-color .2s,color .2s,background .2s;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>white-space:nowrap;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>display:inline-flex;align-items:center;gap:10px;</p>
-<p class="p1">}</p>
-<p class="p1">.btn:hover{border-color:var(--gold);color:var(--gold)}</p>
-<p class="p1">.btn-gold{</p>
-<p class="p1"><span class="Apple-converted-space">  </span>border-color:var(--gold);</p>
-<p class="p1"><span class="Apple-converted-space">  </span>color:var(--gold);</p>
-<p class="p1">}</p>
-<p class="p1">.btn-gold:hover{background:var(--gold);color:var(--black)}</p>
-<p class="p1">.btn-arrow::after{content:'→';font-size:.8rem;transition:transform .2s}</p>
-<p class="p1">.btn-arrow:hover::after{transform:translateX(4px)}</p>
-<p class="p2"><br></p>
-<p class="p1">/* scroll indicator */</p>
-<p class="p1">.hero-scroll{</p>
-<p class="p1"><span class="Apple-converted-space">  </span>position:absolute;bottom:36px;left:50%;transform:translateX(-50%);</p>
-<p class="p1"><span class="Apple-converted-space">  </span>display:flex;flex-direction:column;align-items:center;gap:8px;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>z-index:2;</p>
-<p class="p1">}</p>
-<p class="p1">.hero-scroll-line{</p>
-<p class="p1"><span class="Apple-converted-space">  </span>width:1px;height:40px;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>background:linear-gradient(to bottom,var(--gold),transparent);</p>
-<p class="p1"><span class="Apple-converted-space">  </span>animation:scrollPulse 2s ease-in-out infinite;</p>
-<p class="p1">}</p>
-<p class="p1">.hero-scroll-text{</p>
-<p class="p1"><span class="Apple-converted-space">  </span>font-size:.55rem;letter-spacing:.3em;text-transform:uppercase;color:var(--gold-dim);</p>
-<p class="p1"><span class="Apple-converted-space">  </span>writing-mode:horizontal-tb;</p>
-<p class="p1">}</p>
-<p class="p1">@keyframes scrollPulse{0%,100%{opacity:.3}50%{opacity:1}}</p>
-<p class="p2"><br></p>
-<p class="p1">/* Bottom bar */</p>
-<p class="p1">.hero-bar{</p>
-<p class="p1"><span class="Apple-converted-space">  </span>position:absolute;bottom:0;left:0;right:0;z-index:3;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>height:1px;background:linear-gradient(90deg,transparent,var(--border),var(--border2),var(--border),transparent);</p>
-<p class="p1">}</p>
-<p class="p2"><br></p>
-<p class="p1">/* ══════════════════════════════════</p>
-<p class="p1"><span class="Apple-converted-space">   </span>MARQUEE STRIP</p>
-<p class="p1">══════════════════════════════════ */</p>
-<p class="p1">.marquee-strip{</p>
-<p class="p1"><span class="Apple-converted-space">  </span>border-top:1px solid var(--border);</p>
-<p class="p1"><span class="Apple-converted-space">  </span>border-bottom:1px solid var(--border);</p>
-<p class="p1"><span class="Apple-converted-space">  </span>height:52px;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>overflow:hidden;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>display:flex;align-items:center;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>background:var(--carbon);</p>
-<p class="p1">}</p>
-<p class="p1">.marquee-track{</p>
-<p class="p1"><span class="Apple-converted-space">  </span>display:flex;align-items:center;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>gap:0;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>animation:marqueeTick 22s linear infinite;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>white-space:nowrap;</p>
-<p class="p1">}</p>
-<p class="p1">.marquee-item{</p>
-<p class="p1"><span class="Apple-converted-space">  </span>display:inline-flex;align-items:center;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>padding:0 40px;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>font-family:'Bebas Neue',sans-serif;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>font-size:1.1rem;letter-spacing:.25em;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>color:var(--gold);</p>
-<p class="p1"><span class="Apple-converted-space">  </span>border-right:1px solid var(--border);</p>
-<p class="p1"><span class="Apple-converted-space">  </span>height:52px;</p>
-<p class="p1">}</p>
-<p class="p1">.marquee-dot{display:inline-block;width:4px;height:4px;background:var(--gold-dim);border-radius:50%;margin:0 8px;vertical-align:middle}</p>
-<p class="p1">@keyframes marqueeTick{from{transform:translateX(0)}to{transform:translateX(-50%)}}</p>
-<p class="p2"><br></p>
-<p class="p1">.sec{border-bottom:1px solid var(--border)}</p>
-<p class="p1">.sec-head{padding:80px 52px 64px}</p>
-<p class="p1">.sec-eyebrow{</p>
-<p class="p1"><span class="Apple-converted-space">  </span>display:flex;align-items:center;gap:12px;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>font-size:.6rem;letter-spacing:.28em;text-transform:uppercase;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>color:var(--dim);font-weight:500;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>margin-bottom:20px;</p>
-<p class="p1">}</p>
-<p class="p1">.sec-eyebrow::before{content:'';width:14px;height:1px;background:var(--dim)}</p>
-<p class="p1">h2.sec-title{</p>
-<p class="p1"><span class="Apple-converted-space">  </span>font-family:'Bebas Neue',sans-serif;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>font-size:clamp(3.2rem,7vw,9rem);</p>
-<p class="p1"><span class="Apple-converted-space">  </span>line-height:.88;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>color:var(--white);</p>
-<p class="p1"><span class="Apple-converted-space">  </span>letter-spacing:.01em;</p>
-<p class="p1">}</p>
-<p class="p1">h2.sec-title em{color:var(--gold);font-style:normal}</p>
-<p class="p2"><br></p>
-<p class="p1">/* reveal */</p>
-<p class="p1">.reveal{</p>
-<p class="p1"><span class="Apple-converted-space">  </span>opacity:0;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>transform:translateY(24px);</p>
-<p class="p1"><span class="Apple-converted-space">  </span>transition:opacity .7s cubic-bezier(.2,0,.1,1),transform .7s cubic-bezier(.2,0,.1,1);</p>
-<p class="p1">}</p>
-<p class="p1">.reveal.on{opacity:1;transform:translateY(0)}</p>
-<p class="p1">.reveal-d1{transition-delay:.1s}</p>
-<p class="p1">.reveal-d2{transition-delay:.2s}</p>
-<p class="p1">.reveal-d3{transition-delay:.3s}</p>
-<p class="p1">.reveal-d4{transition-delay:.4s}</p>
-<p class="p1">.reveal-d5{transition-delay:.5s}</p>
-<p class="p2"><br></p>
-<p class="p1">#about{background:var(--carbon)}</p>
-<p class="p1">.about-grid{</p>
-<p class="p1"><span class="Apple-converted-space">  </span>display:grid;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>grid-template-columns:1fr 1fr;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>gap:1px;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>background:var(--border);</p>
-<p class="p1">}</p>
-<p class="p1">.about-col{</p>
-<p class="p1"><span class="Apple-converted-space">  </span>background:var(--carbon);</p>
-<p class="p1"><span class="Apple-converted-space">  </span>padding:56px 52px;</p>
-<p class="p1">}</p>
-<p class="p1">.about-col p{</p>
-<p class="p1"><span class="Apple-converted-space">  </span>font-size:.93rem;line-height:1.85;color:var(--mid);</p>
-<p class="p1"><span class="Apple-converted-space">  </span>margin-bottom:20px;</p>
-<p class="p1">}</p>
-<p class="p1">.about-col p:last-child{margin:0}</p>
-<p class="p1">.about-col strong{color:var(--light);font-weight:400}</p>
-<p class="p1">.about-quote{</p>
-<p class="p1"><span class="Apple-converted-space">  </span>font-family:'Bebas Neue',sans-serif;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>font-size:clamp(1.6rem,3vw,3rem);</p>
-<p class="p1"><span class="Apple-converted-space">  </span>line-height:1.1;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>color:var(--gold);</p>
-<p class="p1"><span class="Apple-converted-space">  </span>border-left:2px solid var(--gold-dim);</p>
-<p class="p1"><span class="Apple-converted-space">  </span>padding-left:22px;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>margin-top:12px;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>letter-spacing:.02em;</p>
-<p class="p1">}</p>
-<p class="p2"><br></p>
-<p class="p1">/* airflow telemetry line art */</p>
-<p class="p1">.airflow-art{</p>
-<p class="p1"><span class="Apple-converted-space">  </span>position:relative;height:140px;margin-top:40px;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>overflow:hidden;</p>
-<p class="p1">}</p>
-<p class="p1">.airflow-art svg{width:100%;height:100%;opacity:.6}</p>
-<p class="p2"><br></p>
-<p class="p1">/* kpi row */</p>
-<p class="p1">.kpi-row{</p>
-<p class="p1"><span class="Apple-converted-space">  </span>display:grid;grid-template-columns:repeat(4,1fr);</p>
-<p class="p1"><span class="Apple-converted-space">  </span>gap:1px;background:var(--border);</p>
-<p class="p1"><span class="Apple-converted-space">  </span>border-top:1px solid var(--border);</p>
-<p class="p1">}</p>
-<p class="p1">.kpi{background:var(--carbon);padding:44px 40px}</p>
-<p class="p1">.kpi-val{</p>
-<p class="p1"><span class="Apple-converted-space">  </span>font-family:'Bebas Neue',sans-serif;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>font-size:4rem;color:var(--gold);</p>
-<p class="p1"><span class="Apple-converted-space">  </span>line-height:1;display:block;margin-bottom:10px;</p>
-<p class="p1">}</p>
-<p class="p1">.kpi-label{</p>
-<p class="p1"><span class="Apple-converted-space">  </span>font-size:.6rem;letter-spacing:.2em;text-transform:uppercase;color:var(--dim);</p>
-<p class="p1">}</p>
-<p class="p2"><br></p>
-<p class="p1">/* ══════════════════════════════════</p>
-<p class="p1"><span class="Apple-converted-space">   </span>TEAM</p>
-<p class="p1">══════════════════════════════════ */</p>
-<p class="p1">#team{background:var(--black)}</p>
-<p class="p1">.team-editorial{</p>
-<p class="p1"><span class="Apple-converted-space">  </span>display:grid;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>grid-template-columns:repeat(5,1fr);</p>
-<p class="p1"><span class="Apple-converted-space">  </span>gap:1px;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>background:var(--border);</p>
-<p class="p1">}</p>
-<p class="p1">.member{</p>
-<p class="p1"><span class="Apple-converted-space">  </span>background:var(--black);</p>
-<p class="p1"><span class="Apple-converted-space">  </span>position:relative;overflow:hidden;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>cursor:default;</p>
-<p class="p1">}</p>
-<p class="p1">/* Photo area */</p>
-<p class="p1">.member-photo{</p>
-<p class="p1"><span class="Apple-converted-space">  </span>position:relative;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>aspect-ratio:2/3;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>background:var(--panel);</p>
-<p class="p1"><span class="Apple-converted-space">  </span>overflow:hidden;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>display:flex;align-items:center;justify-content:center;</p>
-<p class="p1">}</p>
-<p class="p1">/* grayscale ghost initials as stand-in */</p>
-<p class="p1">.member-initials{</p>
-<p class="p1"><span class="Apple-converted-space">  </span>font-family:'Bebas Neue',sans-serif;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>font-size:5rem;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>color:rgba(198,161,91,.08);</p>
-<p class="p1"><span class="Apple-converted-space">  </span>letter-spacing:.05em;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>user-select:none;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>transition:color .4s;</p>
-<p class="p1">}</p>
-<p class="p1">.member:hover .member-initials{color:rgba(198,161,91,.15)}</p>
-<p class="p2"><br></p>
-<p class="p1">/* photo gradient overlay */</p>
-<p class="p1">.member-photo::after{</p>
-<p class="p1"><span class="Apple-converted-space">  </span>content:'';</p>
-<p class="p1"><span class="Apple-converted-space">  </span>position:absolute;inset:0;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>background:linear-gradient(to bottom,</p>
-<p class="p1"><span class="Apple-converted-space">    </span>rgba(8,8,7,0) 30%,</p>
-<p class="p1"><span class="Apple-converted-space">    </span>rgba(8,8,7,.7) 70%,</p>
-<p class="p1"><span class="Apple-converted-space">    </span>rgba(8,8,7,.97) 100%</p>
-<p class="p1"><span class="Apple-converted-space">  </span>);</p>
-<p class="p1"><span class="Apple-converted-space">  </span>transition:opacity .4s;</p>
-<p class="p1">}</p>
-<p class="p1">.member:hover .member-photo::after{opacity:.85}</p>
-<p class="p2"><br></p>
-<p class="p1">/* gold accent line */</p>
-<p class="p1">.member-accent{</p>
-<p class="p1"><span class="Apple-converted-space">  </span>position:absolute;left:0;top:0;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>width:2px;height:0;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>background:var(--gold);</p>
-<p class="p1"><span class="Apple-converted-space">  </span>transition:height .4s cubic-bezier(.2,0,.1,1);</p>
-<p class="p1"><span class="Apple-converted-space">  </span>z-index:3;</p>
-<p class="p1">}</p>
-<p class="p1">.member:hover .member-accent{height:100%}</p>
-<p class="p2"><br></p>
-<p class="p1">/* member info */</p>
-<p class="p1">.member-info{</p>
-<p class="p1"><span class="Apple-converted-space">  </span>padding:20px 24px 28px;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>position:relative;z-index:2;</p>
-<p class="p1">}</p>
-<p class="p1">.member-name{</p>
-<p class="p1"><span class="Apple-converted-space">  </span>font-family:'Bebas Neue',sans-serif;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>font-size:1.6rem;letter-spacing:.04em;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>color:var(--white);display:block;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>margin-bottom:4px;</p>
-<p class="p1">}</p>
-<p class="p1">.member:hover .member-name{color:var(--gold)}</p>
-<p class="p1">.member-role{</p>
-<p class="p1"><span class="Apple-converted-space">  </span>font-size:.58rem;letter-spacing:.18em;text-transform:uppercase;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>color:var(--gold-dim);display:block;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>margin-bottom:12px;line-height:1.6;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>transition:color .3s;</p>
-<p class="p1">}</p>
-<p class="p1">.member:hover .member-role{color:var(--gold)}</p>
-<p class="p1">.member-desc{</p>
-<p class="p1"><span class="Apple-converted-space">  </span>font-size:.78rem;line-height:1.65;color:var(--mid);</p>
-<p class="p1"><span class="Apple-converted-space">  </span>max-height:0;overflow:hidden;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>transition:max-height .4s cubic-bezier(.2,0,.1,1),opacity .3s;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>opacity:0;</p>
-<p class="p1">}</p>
-<p class="p1">.member:hover .member-desc{max-height:120px;opacity:1}</p>
-<p class="p2"><br></p>
-<p class="p1">/* ══════════════════════════════════</p>
-<p class="p1"><span class="Apple-converted-space">   </span>CAR / ENGINEERING</p>
-<p class="p1">══════════════════════════════════ */</p>
-<p class="p1">#car{background:var(--carbon)}</p>
-<p class="p1">.car-grid{</p>
-<p class="p1"><span class="Apple-converted-space">  </span>display:grid;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>grid-template-columns:1fr 340px;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>gap:1px;background:var(--border);</p>
-<p class="p1">}</p>
-<p class="p1">.car-vis{</p>
-<p class="p1"><span class="Apple-converted-space">  </span>background:var(--panel);</p>
-<p class="p1"><span class="Apple-converted-space">  </span>position:relative;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>display:flex;align-items:center;justify-content:center;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>min-height:480px;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>padding:60px;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>overflow:hidden;</p>
-<p class="p1">}</p>
-<p class="p1">/* technical grid overlay */</p>
-<p class="p1">.car-vis::before{</p>
-<p class="p1"><span class="Apple-converted-space">  </span>content:'';</p>
-<p class="p1"><span class="Apple-converted-space">  </span>position:absolute;inset:0;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>background-image:</p>
-<p class="p1"><span class="Apple-converted-space">    </span>linear-gradient(rgba(198,161,91,.04) 1px, transparent 1px),</p>
-<p class="p1"><span class="Apple-converted-space">    </span>linear-gradient(90deg, rgba(198,161,91,.04) 1px, transparent 1px);</p>
-<p class="p1"><span class="Apple-converted-space">  </span>background-size:40px 40px;</p>
-<p class="p1">}</p>
-<p class="p1">/* corner bracket marks */</p>
-<p class="p1">.car-vis::after{</p>
-<p class="p1"><span class="Apple-converted-space">  </span>content:'';</p>
-<p class="p1"><span class="Apple-converted-space">  </span>position:absolute;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>top:24px;left:24px;right:24px;bottom:24px;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>border:1px solid rgba(198,161,91,.08);</p>
-<p class="p1"><span class="Apple-converted-space">  </span>pointer-events:none;</p>
-<p class="p1">}</p>
-<p class="p1">.car-corner{</p>
-<p class="p1"><span class="Apple-converted-space">  </span>position:absolute;width:20px;height:20px;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>border-color:var(--gold);border-style:solid;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>border-width:0;</p>
-<p class="p1">}</p>
-<p class="p1">.car-corner.tl{top:24px;left:24px;border-top-width:1px;border-left-width:1px}</p>
-<p class="p1">.car-corner.tr{top:24px;right:24px;border-top-width:1px;border-right-width:1px}</p>
-<p class="p1">.car-corner.bl{bottom:24px;left:24px;border-bottom-width:1px;border-left-width:1px}</p>
-<p class="p1">.car-corner.br{bottom:24px;right:24px;border-bottom-width:1px;border-right-width:1px}</p>
-<p class="p1">.car-label-tag{</p>
-<p class="p1"><span class="Apple-converted-space">  </span>position:absolute;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>font-size:.55rem;letter-spacing:.2em;text-transform:uppercase;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>color:var(--gold-dim);font-weight:500;</p>
-<p class="p1">}</p>
-<p class="p1">.car-label-tag::before{content:'◆';margin-right:6px;font-size:.45rem}</p>
-<p class="p2"><br></p>
-<p class="p1">.car-specs{background:var(--black)}</p>
-<p class="p1">.spec-row{</p>
-<p class="p1"><span class="Apple-converted-space">  </span>padding:22px 36px;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>border-bottom:1px solid var(--border);</p>
-<p class="p1"><span class="Apple-converted-space">  </span>display:flex;justify-content:space-between;align-items:center;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>transition:background .15s;</p>
-<p class="p1">}</p>
-<p class="p1">.spec-row:last-child{border:none}</p>
-<p class="p1">.spec-row:hover{background:var(--lift)}</p>
-<p class="p1">.spec-key{font-size:.62rem;letter-spacing:.16em;text-transform:uppercase;color:var(--dim);font-weight:500}</p>
-<p class="p1">.spec-val{font-size:.85rem;color:var(--light);font-weight:400;text-align:right}</p>
-<p class="p2"><br></p>
-<p class="p1">/* ══════════════════════════════════</p>
-<p class="p1"><span class="Apple-converted-space">   </span>STATS / PERFORMANCE</p>
-<p class="p1">══════════════════════════════════ */</p>
-<p class="p1">#stats{background:var(--black)}</p>
-<p class="p1">.stats-inner{padding:80px 52px}</p>
-<p class="p1">.stats-grid{</p>
-<p class="p1"><span class="Apple-converted-space">  </span>display:grid;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>grid-template-columns:repeat(3,1fr);</p>
-<p class="p1"><span class="Apple-converted-space">  </span>gap:1px;background:var(--border);</p>
-<p class="p1"><span class="Apple-converted-space">  </span>margin-top:60px;</p>
-<p class="p1">}</p>
-<p class="p1">.stat-block{</p>
-<p class="p1"><span class="Apple-converted-space">  </span>background:var(--carbon);</p>
-<p class="p1"><span class="Apple-converted-space">  </span>padding:52px 44px;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>position:relative;overflow:hidden;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>transition:background .2s;</p>
-<p class="p1">}</p>
-<p class="p1">.stat-block:hover{background:var(--panel)}</p>
-<p class="p1">.stat-block::after{</p>
-<p class="p1"><span class="Apple-converted-space">  </span>content:'';position:absolute;bottom:0;left:0;right:0;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>height:1px;background:var(--border);transition:background .25s;</p>
-<p class="p1">}</p>
-<p class="p1">.stat-block:hover::after{background:var(--gold)}</p>
-<p class="p1">.stat-num{</p>
-<p class="p1"><span class="Apple-converted-space">  </span>font-family:'Bebas Neue',sans-serif;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>font-size:clamp(3.5rem,7vw,7rem);</p>
-<p class="p1"><span class="Apple-converted-space">  </span>color:var(--gold);line-height:1;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>display:block;margin-bottom:12px;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>letter-spacing:.01em;</p>
-<p class="p1">}</p>
-<p class="p1">.stat-unit{</p>
-<p class="p1"><span class="Apple-converted-space">  </span>font-size:2rem;color:var(--gold-dim);</p>
-<p class="p1">}</p>
-<p class="p1">.stat-desc{font-size:.8rem;line-height:1.7;color:var(--mid);margin-top:4px}</p>
-<p class="p1">.stat-label{</p>
-<p class="p1"><span class="Apple-converted-space">  </span>font-size:.6rem;letter-spacing:.22em;text-transform:uppercase;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>color:var(--dim);margin-bottom:16px;display:block;</p>
-<p class="p1">}</p>
-<p class="p1">/* animated bar */</p>
-<p class="p1">.stat-bar-wrap{</p>
-<p class="p1"><span class="Apple-converted-space">  </span>margin-top:24px;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>height:1px;background:var(--border2);</p>
-<p class="p1"><span class="Apple-converted-space">  </span>position:relative;overflow:hidden;</p>
-<p class="p1">}</p>
-<p class="p1">.stat-bar{</p>
-<p class="p1"><span class="Apple-converted-space">  </span>position:absolute;top:0;left:0;height:100%;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>background:linear-gradient(90deg,var(--gold-dim),var(--gold));</p>
-<p class="p1"><span class="Apple-converted-space">  </span>width:0;transition:width 1.4s cubic-bezier(.2,0,.1,1);</p>
-<p class="p1">}</p>
-<p class="p2"><br></p>
-<p class="p1">/* ══════════════════════════════════</p>
-<p class="p1"><span class="Apple-converted-space">   </span>SPONSORS</p>
-<p class="p1">══════════════════════════════════ */</p>
-<p class="p1">#sponsors{background:var(--carbon)}</p>
-<p class="p1">.sponsors-inner{padding:80px 52px}</p>
-<p class="p1">.sp-grid{</p>
-<p class="p1"><span class="Apple-converted-space">  </span>display:flex;flex-wrap:wrap;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>gap:1px;background:var(--border);</p>
-<p class="p1"><span class="Apple-converted-space">  </span>margin-top:60px;</p>
-<p class="p1">}</p>
-<p class="p1">.sp-slot{</p>
-<p class="p1"><span class="Apple-converted-space">  </span>background:var(--black);</p>
-<p class="p1"><span class="Apple-converted-space">  </span>flex:1;min-width:200px;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>padding:48px 40px;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>display:flex;flex-direction:column;align-items:flex-start;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>justify-content:center;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>transition:background .2s;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>position:relative;</p>
-<p class="p1">}</p>
-<p class="p1">.sp-slot::after{</p>
-<p class="p1"><span class="Apple-converted-space">  </span>content:'';position:absolute;bottom:0;left:0;right:0;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>height:1px;background:var(--border);transition:background .2s;</p>
-<p class="p1">}</p>
-<p class="p1">.sp-slot:hover{background:var(--panel)}</p>
-<p class="p1">.sp-slot:hover::after{background:var(--gold)}</p>
-<p class="p1">.sp-tier{</p>
-<p class="p1"><span class="Apple-converted-space">  </span>font-size:.55rem;letter-spacing:.25em;text-transform:uppercase;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>color:var(--gold-dim);margin-bottom:10px;font-weight:500;</p>
-<p class="p1">}</p>
-<p class="p1">.sp-name{</p>
-<p class="p1"><span class="Apple-converted-space">  </span>font-family:'Bebas Neue',sans-serif;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>font-size:1.4rem;letter-spacing:.08em;text-transform:uppercase;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>color:var(--mid);transition:color .2s;</p>
-<p class="p1">}</p>
-<p class="p1">.sp-slot:hover .sp-name{color:var(--gold)}</p>
-<p class="p1">.sp-open .sp-name{</p>
-<p class="p1"><span class="Apple-converted-space">  </span>font-size:.65rem;letter-spacing:.2em;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>color:var(--border2);font-family:'Inter',sans-serif;font-weight:500;</p>
-<p class="p1">}</p>
-<p class="p1">.sp-open:hover .sp-name{color:var(--gold-dim)}</p>
-<p class="p2"><br></p>
-<p class="p1">/* ══════════════════════════════════</p>
-<p class="p1"><span class="Apple-converted-space">   </span>CONNECT</p>
-<p class="p1">══════════════════════════════════ */</p>
-<p class="p1">#connect{background:var(--black)}</p>
-<p class="p1">.connect-grid{</p>
-<p class="p1"><span class="Apple-converted-space">  </span>display:grid;grid-template-columns:1fr 1fr;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>gap:1px;background:var(--border);</p>
-<p class="p1">}</p>
-<p class="p1">.cg-col{background:var(--black);padding:64px 52px}</p>
-<p class="p1">.soc-list{list-style:none;border-top:1px solid var(--border);margin-top:40px}</p>
-<p class="p1">.soc-item a{</p>
-<p class="p1"><span class="Apple-converted-space">  </span>display:flex;align-items:center;justify-content:space-between;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>padding:20px 0;border-bottom:1px solid var(--border);</p>
-<p class="p1"><span class="Apple-converted-space">  </span>transition:padding-left .2s;</p>
-<p class="p1">}</p>
-<p class="p1">.soc-item a:hover{padding-left:16px}</p>
-<p class="p1">.soc-item a:hover .soc-platform{color:var(--gold)}</p>
-<p class="p1">.soc-item a:hover .soc-arrow{color:var(--gold)}</p>
-<p class="p1">.soc-platform{</p>
-<p class="p1"><span class="Apple-converted-space">  </span>font-family:'Bebas Neue',sans-serif;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>font-size:1.2rem;letter-spacing:.06em;text-transform:uppercase;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>color:var(--white);transition:color .2s;</p>
-<p class="p1">}</p>
-<p class="p1">.soc-handle{font-size:.75rem;color:var(--dim)}</p>
-<p class="p1">.soc-arrow{color:var(--dim);transition:color .2s;font-size:1rem}</p>
-<p class="p2"><br></p>
-<p class="p1">.cg-school-label{</p>
-<p class="p1"><span class="Apple-converted-space">  </span>font-size:.58rem;letter-spacing:.28em;text-transform:uppercase;color:var(--dim);margin-bottom:8px;</p>
-<p class="p1">}</p>
-<p class="p1">.cg-school-name{</p>
-<p class="p1"><span class="Apple-converted-space">  </span>font-family:'Bebas Neue',sans-serif;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>font-size:2.5rem;letter-spacing:.04em;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>color:var(--gold);display:block;margin-bottom:32px;</p>
-<p class="p1">}</p>
-<p class="p1">.cg-col p{font-size:.9rem;line-height:1.85;color:var(--mid);margin-bottom:32px}</p>
-<p class="p1">.cg-col strong{color:var(--light);font-weight:400}</p>
-<p class="p2"><br></p>
-<p class="p1">/* ══════════════════════════════════</p>
-<p class="p1"><span class="Apple-converted-space">   </span>FOOTER</p>
-<p class="p1">══════════════════════════════════ */</p>
-<p class="p1">footer{</p>
-<p class="p1"><span class="Apple-converted-space">  </span>background:var(--carbon);</p>
-<p class="p1"><span class="Apple-converted-space">  </span>border-top:1px solid var(--border);</p>
-<p class="p1"><span class="Apple-converted-space">  </span>padding:48px 52px 36px;</p>
-<p class="p1">}</p>
-<p class="p1">.footer-top{</p>
-<p class="p1"><span class="Apple-converted-space">  </span>display:flex;justify-content:space-between;align-items:flex-start;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>margin-bottom:48px;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>padding-bottom:40px;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>border-bottom:1px solid var(--border);</p>
-<p class="p1">}</p>
-<p class="p1">.footer-brand .name{</p>
-<p class="p1"><span class="Apple-converted-space">  </span>font-family:'Bebas Neue',sans-serif;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>font-size:1.2rem;letter-spacing:.2em;color:var(--white);</p>
-<p class="p1">}</p>
-<p class="p1">.footer-brand .name b{color:var(--gold)}</p>
-<p class="p1">.footer-brand .school{</p>
-<p class="p1"><span class="Apple-converted-space">  </span>font-size:.6rem;letter-spacing:.2em;text-transform:uppercase;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>color:var(--dim);margin-top:8px;</p>
-<p class="p1">}</p>
-<p class="p1">.footer-quote{</p>
-<p class="p1"><span class="Apple-converted-space">  </span>max-width:440px;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>font-size:.88rem;line-height:1.8;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>color:var(--mid);font-style:italic;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>text-align:right;</p>
-<p class="p1">}</p>
-<p class="p1">.footer-quote::before{content:'"';color:var(--gold);font-size:1.4rem;font-style:normal}</p>
-<p class="p1">.footer-quote::after{content:'"';color:var(--gold);font-size:1.4rem;font-style:normal}</p>
-<p class="p1">.footer-bottom{</p>
-<p class="p1"><span class="Apple-converted-space">  </span>display:flex;justify-content:space-between;align-items:center;</p>
-<p class="p1">}</p>
-<p class="p1">.footer-copy{font-size:.58rem;letter-spacing:.18em;text-transform:uppercase;color:var(--border2)}</p>
-<p class="p1">.footer-tagline{</p>
-<p class="p1"><span class="Apple-converted-space">  </span>font-family:'Bebas Neue',sans-serif;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>font-size:.9rem;letter-spacing:.25em;color:var(--gold-dim);</p>
-<p class="p1">}</p>
-<p class="p2"><br></p>
-<p class="p1">/* ══════════════════════════════════</p>
-<p class="p1"><span class="Apple-converted-space">   </span>RESPONSIVE</p>
-<p class="p1">══════════════════════════════════ */</p>
-<p class="p1">@media(max-width:1100px){</p>
-<p class="p1"><span class="Apple-converted-space">  </span>.hero-content{grid-template-columns:1fr;gap:40px}</p>
-<p class="p1"><span class="Apple-converted-space">  </span>.hero-right{border-left:none;padding-left:0;margin-left:0;border-top:1px solid var(--border);padding-top:32px}</p>
-<p class="p1"><span class="Apple-converted-space">  </span>.about-grid,.car-grid,.connect-grid{grid-template-columns:1fr}</p>
-<p class="p1"><span class="Apple-converted-space">  </span>.team-editorial{grid-template-columns:repeat(3,1fr)}</p>
-<p class="p1"><span class="Apple-converted-space">  </span>.kpi-row{grid-template-columns:1fr 1fr}</p>
-<p class="p1"><span class="Apple-converted-space">  </span>.stats-grid{grid-template-columns:1fr 1fr}</p>
-<p class="p1"><span class="Apple-converted-space">  </span>#nav{padding:0 24px}</p>
-<p class="p1"><span class="Apple-converted-space">  </span>.nav-items{display:none}</p>
-<p class="p1"><span class="Apple-converted-space">  </span>.nav-right{display:none}</p>
-<p class="p1"><span class="Apple-converted-space">  </span>.sec-head,.stats-inner,.sponsors-inner{padding:60px 24px}</p>
-<p class="p1"><span class="Apple-converted-space">  </span>.hero-content{padding:0 24px 64px}</p>
-<p class="p1">}</p>
-<p class="p1">@media(max-width:700px){</p>
-<p class="p1"><span class="Apple-converted-space">  </span>.team-editorial{grid-template-columns:1fr 1fr}</p>
-<p class="p1"><span class="Apple-converted-space">  </span>.stats-grid{grid-template-columns:1fr}</p>
-<p class="p1"><span class="Apple-converted-space">  </span>.kpi-row{grid-template-columns:1fr 1fr}</p>
-<p class="p1"><span class="Apple-converted-space">  </span>.about-col{padding:40px 24px}</p>
-<p class="p1"><span class="Apple-converted-space">  </span>.cg-col{padding:48px 24px}</p>
-<p class="p1"><span class="Apple-converted-space">  </span>footer{padding:40px 24px 28px}</p>
-<p class="p1"><span class="Apple-converted-space">  </span>.footer-top{flex-direction:column;gap:24px}</p>
-<p class="p1"><span class="Apple-converted-space">  </span>.footer-quote{text-align:left}</p>
-<p class="p1"><span class="Apple-converted-space">  </span>.footer-bottom{flex-direction:column;gap:12px;text-align:center}</p>
-<p class="p1">}</p>
-<p class="p1">@media(max-width:460px){</p>
-<p class="p1"><span class="Apple-converted-space">  </span>.team-editorial{grid-template-columns:1fr}</p>
-<p class="p1"><span class="Apple-converted-space">  </span>.kpi-row{grid-template-columns:1fr}</p>
-<p class="p1">}</p>
-<p class="p1">&lt;/style&gt;</p>
-<p class="p1">&lt;/head&gt;</p>
-<p class="p1">&lt;body&gt;</p>
-<p class="p2"><br></p>
-<p class="p1">&lt;!-- ════════════ NAV ════════════ --&gt;</p>
-<p class="p1">&lt;nav id="nav"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>&lt;div class="nav-brand"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;img src="logo.png" style="height:38px;width:auto;" alt="Nomad Racers"/&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;span class="nav-name"&gt;Nomad &lt;b&gt;Racers&lt;/b&gt;&lt;/span&gt;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>&lt;ul class="nav-items"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;li&gt;&lt;a href="#about"&gt;About&lt;/a&gt;&lt;/li&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;li&gt;&lt;a href="#team"&gt;Team&lt;/a&gt;&lt;/li&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;li&gt;&lt;a href="#car"&gt;Engineering&lt;/a&gt;&lt;/li&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;li&gt;&lt;a href="#stats"&gt;Performance&lt;/a&gt;&lt;/li&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;li&gt;&lt;a href="#sponsors"&gt;Partners&lt;/a&gt;&lt;/li&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;li&gt;&lt;a href="#connect"&gt;Connect&lt;/a&gt;&lt;/li&gt;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>&lt;/ul&gt;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>&lt;div class="nav-right"&gt;Innovate · Design · Race · Repeat&lt;/div&gt;</p>
-<p class="p1">&lt;/nav&gt;</p>
-<p class="p2"><br></p>
-<p class="p1">&lt;!-- ════════════ HERO ════════════ --&gt;</p>
-<p class="p1">&lt;section id="hero"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>&lt;div class="hero-bg"&gt;&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>&lt;div class="hero-lines"&gt;&lt;/div&gt;</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">  </span>&lt;!-- sparks injected by JS --&gt;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>&lt;div class="sparks" id="sparks"&gt;&lt;/div&gt;</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">  </span>&lt;div class="hero-ghost"&gt;NR&lt;/div&gt;</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">  </span>&lt;div class="hero-content"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;div class="hero-left"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;div class="hero-label"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="hero-label-line"&gt;&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;span class="hero-label-text"&gt;F1 STEM Racing — Haileybury Almaty — Almaty, Kazakhstan&lt;/span&gt;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;h1 class="hero-title"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>Engineering&lt;br&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;span class="gold-line"&gt;The Future&lt;/span&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>Of Speed</p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;/h1&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;div class="hero-right"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;p class="hero-sub"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>We engineer a vehicle that achieves the optimal balance between &lt;strong&gt;aerodynamic drag reduction&lt;/strong&gt; and structural integrity — utilizing Digital-Twin simulations to ensure peak performance.</p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;/p&gt;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;div class="hero-ctas"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;a href="#team" class="btn btn-gold btn-arrow"&gt;Meet the Team&lt;/a&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;a href="#car" class="btn btn-arrow"&gt;Explore Our Car&lt;/a&gt;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>&lt;/div&gt;</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">  </span>&lt;div class="hero-scroll"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;div class="hero-scroll-line"&gt;&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;span class="hero-scroll-text"&gt;Scroll&lt;/span&gt;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>&lt;div class="hero-bar"&gt;&lt;/div&gt;</p>
-<p class="p1">&lt;/section&gt;</p>
-<p class="p2"><br></p>
-<p class="p1">&lt;!-- ════════════ MARQUEE ════════════ --&gt;</p>
-<p class="p1">&lt;div class="marquee-strip"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>&lt;div class="marquee-track" id="marquee"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;span class="marquee-item"&gt;Innovate&lt;span class="marquee-dot"&gt;&lt;/span&gt;&lt;/span&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;span class="marquee-item"&gt;Design&lt;span class="marquee-dot"&gt;&lt;/span&gt;&lt;/span&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;span class="marquee-item"&gt;Race&lt;span class="marquee-dot"&gt;&lt;/span&gt;&lt;/span&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;span class="marquee-item"&gt;Repeat&lt;span class="marquee-dot"&gt;&lt;/span&gt;&lt;/span&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;span class="marquee-item"&gt;CFD Analysis&lt;span class="marquee-dot"&gt;&lt;/span&gt;&lt;/span&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;span class="marquee-item"&gt;Digital Twin&lt;span class="marquee-dot"&gt;&lt;/span&gt;&lt;/span&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;span class="marquee-item"&gt;CAM Engineering&lt;span class="marquee-dot"&gt;&lt;/span&gt;&lt;/span&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;span class="marquee-item"&gt;Precision Built&lt;span class="marquee-dot"&gt;&lt;/span&gt;&lt;/span&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;span class="marquee-item"&gt;Innovate&lt;span class="marquee-dot"&gt;&lt;/span&gt;&lt;/span&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;span class="marquee-item"&gt;Design&lt;span class="marquee-dot"&gt;&lt;/span&gt;&lt;/span&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;span class="marquee-item"&gt;Race&lt;span class="marquee-dot"&gt;&lt;/span&gt;&lt;/span&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;span class="marquee-item"&gt;Repeat&lt;span class="marquee-dot"&gt;&lt;/span&gt;&lt;/span&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;span class="marquee-item"&gt;CFD Analysis&lt;span class="marquee-dot"&gt;&lt;/span&gt;&lt;/span&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;span class="marquee-item"&gt;Digital Twin&lt;span class="marquee-dot"&gt;&lt;/span&gt;&lt;/span&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;span class="marquee-item"&gt;CAM Engineering&lt;span class="marquee-dot"&gt;&lt;/span&gt;&lt;/span&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;span class="marquee-item"&gt;Precision Built&lt;span class="marquee-dot"&gt;&lt;/span&gt;&lt;/span&gt;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>&lt;/div&gt;</p>
-<p class="p1">&lt;/div&gt;</p>
-<p class="p2"><br></p>
-<p class="p1">&lt;!-- ════════════ ABOUT ════════════ --&gt;</p>
-<p class="p1">&lt;section class="sec" id="about"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>&lt;div class="sec-head reveal"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;div class="sec-eyebrow"&gt;Engineering &amp; Enterprise&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;h2 class="sec-title"&gt;Built to&lt;br&gt;&lt;em&gt;Perform.&lt;/em&gt;&lt;/h2&gt;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>&lt;div class="about-grid"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;div class="about-col reveal reveal-d1"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;p&gt;Nomad Racers is a student engineering team from &lt;strong&gt;Haileybury Almaty&lt;/strong&gt;, competing in the F1 STEM Racing Competition. Our goal: engineer a vehicle achieving the optimal balance between aerodynamic drag reduction and structural integrity.&lt;/p&gt;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;p&gt;We utilize &lt;strong&gt;Digital-Twin simulations&lt;/strong&gt; to ensure peak performance — mirroring the real Formula One development process: CFD simulation first, precision CAD modelling second, CNC CAM manufacturing third.&lt;/p&gt;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;div class="airflow-art"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;svg viewBox="0 0 600 140" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">          </span>&lt;defs&gt;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>&lt;linearGradient id="ag1" x1="0" x2="1" y1="0" y2="0"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">              </span>&lt;stop offset="0%" stop-color="rgba(198,161,91,0)"/&gt;</p>
-<p class="p1"><span class="Apple-converted-space">              </span>&lt;stop offset="40%" stop-color="rgba(198,161,91,0.6)"/&gt;</p>
-<p class="p1"><span class="Apple-converted-space">              </span>&lt;stop offset="100%" stop-color="rgba(198,161,91,0)"/&gt;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>&lt;/linearGradient&gt;</p>
-<p class="p1"><span class="Apple-converted-space">          </span>&lt;/defs&gt;</p>
-<p class="p1"><span class="Apple-converted-space">          </span>&lt;!-- airflow lines around car silhouette --&gt;</p>
-<p class="p1"><span class="Apple-converted-space">          </span>&lt;path d="M0 70 Q120 30 200 68 Q280 100 380 65 Q450 38 600 68" stroke="url(#ag1)" stroke-width="0.8" fill="none" opacity="0.7"/&gt;</p>
-<p class="p1"><span class="Apple-converted-space">          </span>&lt;path d="M0 80 Q100 45 200 75 Q300 108 390 72 Q470 44 600 78" stroke="url(#ag1)" stroke-width="0.8" fill="none" opacity="0.5"/&gt;</p>
-<p class="p1"><span class="Apple-converted-space">          </span>&lt;path d="M0 60 Q130 22 210 60 Q290 95 370 58 Q440 30 600 58" stroke="url(#ag1)" stroke-width="0.6" fill="none" opacity="0.4"/&gt;</p>
-<p class="p1"><span class="Apple-converted-space">          </span>&lt;path d="M0 90 Q90 62 205 85 Q310 112 395 80 Q475 55 600 88" stroke="url(#ag1)" stroke-width="0.6" fill="none" opacity="0.4"/&gt;</p>
-<p class="p1"><span class="Apple-converted-space">          </span>&lt;path d="M0 50 Q140 15 215 52 Q295 88 365 50 Q430 22 600 48" stroke="url(#ag1)" stroke-width="0.5" fill="none" opacity="0.3"/&gt;</p>
-<p class="p1"><span class="Apple-converted-space">          </span>&lt;path d="M0 100 Q80 78 208 95 Q320 116 400 88 Q478 65 600 98" stroke="url(#ag1)" stroke-width="0.5" fill="none" opacity="0.3"/&gt;</p>
-<p class="p1"><span class="Apple-converted-space">          </span>&lt;!-- car body rough silhouette --&gt;</p>
-<p class="p1"><span class="Apple-converted-space">          </span>&lt;path d="M160 85 L175 65 L210 55 L270 50 L310 50 L345 52 L390 62 L408 78 L408 88 L160 90 Z" fill="rgba(12,11,10,0.8)" stroke="rgba(198,161,91,0.2)" stroke-width="0.5"/&gt;</p>
-<p class="p1"><span class="Apple-converted-space">          </span>&lt;!-- cockpit --&gt;</p>
-<p class="p1"><span class="Apple-converted-space">          </span>&lt;path d="M248 50 L258 36 L290 32 L320 36 L330 50 Z" fill="rgba(12,11,10,0.9)" stroke="rgba(198,161,91,0.3)" stroke-width="0.5"/&gt;</p>
-<p class="p1"><span class="Apple-converted-space">          </span>&lt;!-- halo --&gt;</p>
-<p class="p1"><span class="Apple-converted-space">          </span>&lt;path d="M260 37 Q290 26 318 37" fill="none" stroke="rgba(198,161,91,0.5)" stroke-width="2" stroke-linecap="round"/&gt;</p>
-<p class="p1"><span class="Apple-converted-space">          </span>&lt;!-- pressure zone markers --&gt;</p>
-<p class="p1"><span class="Apple-converted-space">          </span>&lt;circle cx="175" cy="72" r="3" fill="none" stroke="rgba(198,161,91,0.4)" stroke-width="0.5"/&gt;</p>
-<p class="p1"><span class="Apple-converted-space">          </span>&lt;circle cx="395" cy="70" r="3" fill="none" stroke="rgba(198,161,91,0.4)" stroke-width="0.5"/&gt;</p>
-<p class="p1"><span class="Apple-converted-space">          </span>&lt;text x="155" y="106" font-family="Inter" font-size="6" fill="rgba(198,161,91,0.4)" letter-spacing="1"&gt;HIGH PRESSURE&lt;/text&gt;</p>
-<p class="p1"><span class="Apple-converted-space">          </span>&lt;text x="360" y="106" font-family="Inter" font-size="6" fill="rgba(198,161,91,0.4)" letter-spacing="1"&gt;LOW PRESSURE&lt;/text&gt;</p>
-<p class="p1"><span class="Apple-converted-space">          </span>&lt;line x1="175" y1="95" x2="175" y2="76" stroke="rgba(198,161,91,0.3)" stroke-width="0.5" stroke-dasharray="2,2"/&gt;</p>
-<p class="p1"><span class="Apple-converted-space">          </span>&lt;line x1="395" y1="95" x2="395" y2="74" stroke="rgba(198,161,91,0.3)" stroke-width="0.5" stroke-dasharray="2,2"/&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;/svg&gt;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;div class="about-col reveal reveal-d2"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;p&gt;We operate like a professional outfit — full &lt;strong&gt;enterprise, branding, and budget management&lt;/strong&gt; functions running in parallel to our engineering work. Strategic lead Dariya manages partnerships while the engineering team pushes performance limits.&lt;/p&gt;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;p&gt;Beyond racing, we &lt;strong&gt;mentor new teams&lt;/strong&gt;, run community workshops across Almaty, and share our technical knowledge. Teams we have mentored have gone from zero to competition-ready.&lt;/p&gt;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;div class="about-quote reveal-d3"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>"We adapt.&lt;br&gt;We optimize.&lt;br&gt;We outpace."</p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>&lt;div class="kpi-row"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;div class="kpi reveal reveal-d1"&gt;&lt;span class="kpi-val"&gt;5&lt;/span&gt;&lt;span class="kpi-label"&gt;Team Engineers&lt;/span&gt;&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;div class="kpi reveal reveal-d2"&gt;&lt;span class="kpi-val"&gt;6&lt;/span&gt;&lt;span class="kpi-label"&gt;Disciplines&lt;/span&gt;&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;div class="kpi reveal reveal-d3"&gt;&lt;span class="kpi-val"&gt;100%&lt;/span&gt;&lt;span class="kpi-label"&gt;Digital-Twin Process&lt;/span&gt;&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;div class="kpi reveal reveal-d4"&gt;&lt;span class="kpi-val"&gt;∞&lt;/span&gt;&lt;span class="kpi-label"&gt;CFD Iterations&lt;/span&gt;&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>&lt;/div&gt;</p>
-<p class="p1">&lt;/section&gt;</p>
-<p class="p2"><br></p>
-<p class="p1">&lt;!-- ════════════ TEAM ════════════ --&gt;</p>
-<p class="p1">&lt;section class="sec" id="team"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>&lt;div class="sec-head reveal"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;div class="sec-eyebrow"&gt;The Five Engineers&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;h2 class="sec-title"&gt;Meet the&lt;br&gt;&lt;em&gt;Team.&lt;/em&gt;&lt;/h2&gt;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>&lt;div class="team-editorial"&gt;</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;div class="member reveal reveal-d1"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;div class="member-accent"&gt;&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;div class="member-photo"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;span class="member-initials"&gt;NR&lt;/span&gt;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;div class="member-info"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;span class="member-name"&gt;Nurali&lt;/span&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;span class="member-role"&gt;Team Lead&lt;/span&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;p class="member-desc"&gt;Project lifecycle ownership, final strategic decisions, and regulatory compliance across the full competition.&lt;/p&gt;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;/div&gt;</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;div class="member reveal reveal-d2"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;div class="member-accent"&gt;&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;div class="member-photo"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;span class="member-initials"&gt;NI&lt;/span&gt;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;div class="member-info"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;span class="member-name"&gt;Nurislam&lt;/span&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;span class="member-role"&gt;Lead Design &amp; Aerodynamics Engineer&lt;/span&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;p class="member-desc"&gt;Computational analysis optimizing drag coefficient through laminar flow attachment and pressure-recovery mechanisms.&lt;/p&gt;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;/div&gt;</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;div class="member reveal reveal-d3"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;div class="member-accent"&gt;&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;div class="member-photo"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;span class="member-initials"&gt;IG&lt;/span&gt;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;div class="member-info"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;span class="member-name"&gt;Igor&lt;/span&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;span class="member-role"&gt;Lead CAD, CAM &amp; Simulation Engineer&lt;/span&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;p class="member-desc"&gt;High-precision 3D modelling and Digital-Twin synchronization. Translates aerodynamic theory into manufacturing-ready geometry.&lt;/p&gt;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;/div&gt;</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;div class="member reveal reveal-d4"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;div class="member-accent"&gt;&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;div class="member-photo"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;span class="member-initials"&gt;DA&lt;/span&gt;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;div class="member-info"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;span class="member-name"&gt;Dariya&lt;/span&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;span class="member-role"&gt;Head of Marketing &amp; Enterprise&lt;/span&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;p class="member-desc"&gt;Strategic lead securing high-level partnerships and maintaining the team's professional public profile.&lt;/p&gt;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;/div&gt;</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;div class="member reveal reveal-d5"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;div class="member-accent"&gt;&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;div class="member-photo"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;span class="member-initials"&gt;MI&lt;/span&gt;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;div class="member-info"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;span class="member-name"&gt;Miras&lt;/span&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;span class="member-role"&gt;CAM Engineer &amp; Enterprise&lt;/span&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;p class="member-desc"&gt;Translating complex CAD geometry into precise toolpaths and manufacturing protocols for the final car.&lt;/p&gt;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;/div&gt;</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">  </span>&lt;/div&gt;</p>
-<p class="p1">&lt;/section&gt;</p>
-<p class="p2"><br></p>
-<p class="p1">&lt;!-- ════════════ CAR / ENGINEERING ════════════ --&gt;</p>
-<p class="p1">&lt;section class="sec" id="car"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>&lt;div class="sec-head reveal"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;div class="sec-eyebrow"&gt;Engineering Lab&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;h2 class="sec-title"&gt;The&lt;br&gt;&lt;em&gt;Machine.&lt;/em&gt;&lt;/h2&gt;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>&lt;div class="car-grid reveal"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;div class="car-vis"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;div class="car-corner tl"&gt;&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;div class="car-corner tr"&gt;&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;div class="car-corner bl"&gt;&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;div class="car-corner br"&gt;&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;!-- annotation labels --&gt;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;div class="car-label-tag" style="top:36px;left:44px;color:var(--gold)"&gt;CFD Validated Aero Package&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;div class="car-label-tag" style="bottom:36px;right:44px"&gt;Digital-Twin Sync Active&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;!-- Car SVG — gold/black livery matching real render --&gt;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;svg viewBox="0 0 560 210" style="width:100%;max-width:520px;position:relative;z-index:1" xmlns="http://www.w3.org/2000/svg"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;defs&gt;</p>
-<p class="p1"><span class="Apple-converted-space">          </span>&lt;linearGradient id="gt" x1="0" y1="0" x2="0" y2="1"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>&lt;stop offset="0%" stop-color="#d4ac3a"/&gt;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>&lt;stop offset="50%" stop-color="#c4a030"/&gt;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>&lt;stop offset="100%" stop-color="#7a5a18"/&gt;</p>
-<p class="p1"><span class="Apple-converted-space">          </span>&lt;/linearGradient&gt;</p>
-<p class="p1"><span class="Apple-converted-space">          </span>&lt;linearGradient id="gb" x1="0" y1="0" x2="0" y2="1"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>&lt;stop offset="0%" stop-color="#1a1400"/&gt;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>&lt;stop offset="100%" stop-color="#080600"/&gt;</p>
-<p class="p1"><span class="Apple-converted-space">          </span>&lt;/linearGradient&gt;</p>
-<p class="p1"><span class="Apple-converted-space">          </span>&lt;filter id="gf" x="-20%" y="-20%" width="140%" height="140%"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>&lt;feGaussianBlur stdDeviation="3" result="b"/&gt;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>&lt;feMerge&gt;&lt;feMergeNode in="b"/&gt;&lt;feMergeNode in="SourceGraphic"/&gt;&lt;/feMerge&gt;</p>
-<p class="p1"><span class="Apple-converted-space">          </span>&lt;/filter&gt;</p>
-<p class="p1"><span class="Apple-converted-space">          </span>&lt;radialGradient id="wg" cx="50%" cy="50%" r="50%"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>&lt;stop offset="0%" stop-color="rgba(198,161,91,0.15)"/&gt;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>&lt;stop offset="100%" stop-color="rgba(198,161,91,0)"/&gt;</p>
-<p class="p1"><span class="Apple-converted-space">          </span>&lt;/radialGradient&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;/defs&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;!-- glow under car --&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;ellipse cx="280" cy="175" rx="230" ry="35" fill="url(#wg)"/&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;!-- REAR WING --&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;rect x="46" y="72" width="72" height="12" rx="1.5" fill="url(#gt)" filter="url(#gf)"/&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;rect x="52" y="82" width="60" height="7" rx="1" fill="#7a5a18" opacity=".75"/&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;line x1="65" y1="84" x2="63" y2="112" stroke="#9a7825" stroke-width="2.5"/&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;line x1="102" y1="84" x2="104" y2="112" stroke="#9a7825" stroke-width="2.5"/&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;rect x="46" y="72" width="5" height="50" rx="1" fill="#6a5014"/&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;rect x="113" y="72" width="5" height="50" rx="1" fill="#6a5014"/&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;!-- BODY --&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;path d="M62 152 L80 108 L162 80 L242 66 L292 62 L342 64 L418 78 L460 102 L474 126 L472 148 L62 152Z" fill="url(#gt)"/&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;!-- body bottom dark --&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;path d="M64 148 L472 148 L462 162 L76 162Z" fill="url(#gb)"/&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;!-- sidepod panel --&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;path d="M185 95 L375 88 L385 108 L375 128 L178 130 L168 110Z" fill="rgba(0,0,0,.35)"/&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;!-- engine cover --&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;path d="M232 66 L244 40 L292 32 L336 40 L348 66Z" fill="#c4a030"/&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;path d="M244 66 L252 44 L292 38 L330 44 L338 66Z" fill="rgba(0,0,0,.5)"/&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;!-- HALO --&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;path d="M256 44 Q292 28 324 44" fill="none" stroke="#c4a030" stroke-width="5" stroke-linecap="round" filter="url(#gf)"/&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;path d="M256 44 Q292 28 324 44" fill="none" stroke="#f0d060" stroke-width="1.5" stroke-linecap="round"/&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;!-- gold top edge line --&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;path d="M80 108 L418 78" stroke="rgba(212,172,58,0.45)" stroke-width="1.5"/&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;!-- NOSE --&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;path d="M458 122 L502 114 L508 128 L508 140 L472 144Z" fill="#b89028"/&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;!-- FRONT WING --&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;path d="M474 132 L520 124 L524 140 L520 148 L472 148Z" fill="url(#gt)"/&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;path d="M476 142 L520 134 L522 140 L474 146Z" fill="#7a5a18" opacity=".75"/&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;rect x="518" y="124" width="5" height="26" rx="1" fill="#6a5014"/&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;!-- FLOOR + DIFFUSER --&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;path d="M66 162 L462 162 L452 175 L80 175Z" fill="#1a1200"/&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;line x1="145" y1="162" x2="140" y2="175" stroke="#2a2000" stroke-width="1.2"/&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;line x1="195" y1="162" x2="192" y2="175" stroke="#2a2000" stroke-width="1.2"/&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;line x1="245" y1="162" x2="244" y2="175" stroke="#2a2000" stroke-width="1.2"/&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;line x1="295" y1="162" x2="296" y2="175" stroke="#2a2000" stroke-width="1.2"/&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;line x1="345" y1="162" x2="348" y2="175" stroke="#2a2000" stroke-width="1.2"/&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;line x1="395" y1="162" x2="400" y2="175" stroke="#2a2000" stroke-width="1.2"/&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;!-- REAR WHEEL --&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;circle cx="112" cy="162" r="40" fill="#0a0800" stroke="#c4a030" stroke-width="1.5"/&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;circle cx="112" cy="162" r="27" fill="none" stroke="rgba(196,160,48,.18)" stroke-width="6"/&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;circle cx="112" cy="162" r="13" fill="none" stroke="rgba(196,160,48,.28)" stroke-width="2"/&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;circle cx="112" cy="162" r="7" fill="rgba(196,160,48,.25)"/&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;!-- rear spokes --&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;line x1="112" y1="148" x2="112" y2="122" stroke="rgba(196,160,48,.18)" stroke-width="1.5"/&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;line x1="112" y1="176" x2="112" y2="202" stroke="rgba(196,160,48,.18)" stroke-width="1.5"/&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;line x1="98" y1="162" x2="72" y2="162" stroke="rgba(196,160,48,.18)" stroke-width="1.5"/&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;line x1="126" y1="162" x2="152" y2="162" stroke="rgba(196,160,48,.18)" stroke-width="1.5"/&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;!-- FRONT WHEEL --&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;circle cx="416" cy="163" r="36" fill="#0a0800" stroke="#c4a030" stroke-width="1.5"/&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;circle cx="416" cy="163" r="24" fill="none" stroke="rgba(196,160,48,.18)" stroke-width="6"/&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;circle cx="416" cy="163" r="11" fill="none" stroke="rgba(196,160,48,.28)" stroke-width="2"/&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;circle cx="416" cy="163" r="6" fill="rgba(196,160,48,.25)"/&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;line x1="416" y1="150" x2="416" y2="127" stroke="rgba(196,160,48,.18)" stroke-width="1.5"/&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;line x1="416" y1="176" x2="416" y2="199" stroke="rgba(196,160,48,.18)" stroke-width="1.5"/&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;line x1="403" y1="163" x2="380" y2="163" stroke="rgba(196,160,48,.18)" stroke-width="1.5"/&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;line x1="429" y1="163" x2="452" y2="163" stroke="rgba(196,160,48,.18)" stroke-width="1.5"/&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;!-- NOMAD RACERS text on body --&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;text x="275" y="122" font-family="'Bebas Neue'" font-size="12" fill="rgba(245,235,185,.45)" text-anchor="middle" letter-spacing="5"&gt;NOMAD RACERS&lt;/text&gt;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;/svg&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;div class="car-specs"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;div class="spec-row"&gt;&lt;span class="spec-key"&gt;Design Method&lt;/span&gt;&lt;span class="spec-val"&gt;Digital-Twin Simulation&lt;/span&gt;&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;div class="spec-row"&gt;&lt;span class="spec-key"&gt;Aero Analysis&lt;/span&gt;&lt;span class="spec-val"&gt;CFD — Laminar Flow&lt;/span&gt;&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;div class="spec-row"&gt;&lt;span class="spec-key"&gt;3D Modelling&lt;/span&gt;&lt;span class="spec-val"&gt;High-Precision CAD&lt;/span&gt;&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;div class="spec-row"&gt;&lt;span class="spec-key"&gt;Manufacturing&lt;/span&gt;&lt;span class="spec-val"&gt;CNC / CAM Toolpaths&lt;/span&gt;&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;div class="spec-row"&gt;&lt;span class="spec-key"&gt;Optimisation&lt;/span&gt;&lt;span class="spec-val"&gt;Drag Coefficient&lt;/span&gt;&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;div class="spec-row"&gt;&lt;span class="spec-key"&gt;Flow Strategy&lt;/span&gt;&lt;span class="spec-val"&gt;Pressure-Recovery&lt;/span&gt;&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;div class="spec-row"&gt;&lt;span class="spec-key"&gt;Livery&lt;/span&gt;&lt;span class="spec-val"&gt;Gold &amp; Black&lt;/span&gt;&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;div class="spec-row"&gt;&lt;span class="spec-key"&gt;Geometry Output&lt;/span&gt;&lt;span class="spec-val"&gt;Mfg-Ready Format&lt;/span&gt;&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>&lt;/div&gt;</p>
-<p class="p1">&lt;/section&gt;</p>
-<p class="p2"><br></p>
-<p class="p1">&lt;!-- ════════════ STATS ════════════ --&gt;</p>
-<p class="p1">&lt;section class="sec" id="stats"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>&lt;div class="stats-inner"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;div class="sec-eyebrow reveal"&gt;Performance Portfolio&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;h2 class="sec-title reveal reveal-d1"&gt;Precision&lt;br&gt;&lt;em&gt;Numbers.&lt;/em&gt;&lt;/h2&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;div class="stats-grid"&gt;</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;div class="stat-block reveal reveal-d1" data-bar="82"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;span class="stat-label"&gt;Aerodynamics&lt;/span&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;span class="stat-num"&gt;82&lt;span class="stat-unit"&gt;%&lt;/span&gt;&lt;/span&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;p class="stat-desc"&gt;Drag coefficient optimization achieved through iterative CFD simulation and laminar flow analysis.&lt;/p&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="stat-bar-wrap"&gt;&lt;div class="stat-bar"&gt;&lt;/div&gt;&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;/div&gt;</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;div class="stat-block reveal reveal-d2" data-bar="95"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;span class="stat-label"&gt;Manufacturing&lt;/span&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;span class="stat-num"&gt;±0.1&lt;span class="stat-unit"&gt;mm&lt;/span&gt;&lt;/span&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;p class="stat-desc"&gt;CNC manufacturing precision from CAM toolpaths — CAD geometry reproduced to within 0.1mm tolerance.&lt;/p&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="stat-bar-wrap"&gt;&lt;div class="stat-bar"&gt;&lt;/div&gt;&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;/div&gt;</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;div class="stat-block reveal reveal-d3" data-bar="70"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;span class="stat-label"&gt;Digital-Twin Sync&lt;/span&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;span class="stat-num"&gt;100&lt;span class="stat-unit"&gt;%&lt;/span&gt;&lt;/span&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;p class="stat-desc"&gt;Full simulation-to-physical parity. Every design decision validated in the digital environment before manufacture.&lt;/p&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="stat-bar-wrap"&gt;&lt;div class="stat-bar"&gt;&lt;/div&gt;&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;/div&gt;</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;div class="stat-block reveal reveal-d1" data-bar="60"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;span class="stat-label"&gt;CAD Development&lt;/span&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;span class="stat-num"&gt;6&lt;/span&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;p class="stat-desc"&gt;Complete design disciplines covered: aerodynamics, CAD, CAM, branding, budget, and enterprise.&lt;/p&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="stat-bar-wrap"&gt;&lt;div class="stat-bar"&gt;&lt;/div&gt;&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;/div&gt;</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;div class="stat-block reveal reveal-d2" data-bar="88"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;span class="stat-label"&gt;Team Output&lt;/span&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;span class="stat-num"&gt;5&lt;/span&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;p class="stat-desc"&gt;Student engineers delivering across every dimension of a professional motorsport programme.&lt;/p&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="stat-bar-wrap"&gt;&lt;div class="stat-bar"&gt;&lt;/div&gt;&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;/div&gt;</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;div class="stat-block reveal reveal-d3" data-bar="75"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;span class="stat-label"&gt;Community Impact&lt;/span&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;span class="stat-num"&gt;4+&lt;/span&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;p class="stat-desc"&gt;Workshops delivered, new teams mentored, and community engineering sessions run across Almaty.&lt;/p&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="stat-bar-wrap"&gt;&lt;div class="stat-bar"&gt;&lt;/div&gt;&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;/div&gt;</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>&lt;/div&gt;</p>
-<p class="p1">&lt;/section&gt;</p>
-<p class="p2"><br></p>
-<p class="p1">&lt;!-- ════════════ SPONSORS ════════════ --&gt;</p>
-<p class="p1">&lt;section class="sec" id="sponsors"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>&lt;div class="sponsors-inner"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;div class="sec-eyebrow reveal"&gt;Partners &amp; Sponsors&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;h2 class="sec-title reveal reveal-d1"&gt;Who Backs&lt;br&gt;&lt;em&gt;Us.&lt;/em&gt;&lt;/h2&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;div class="sp-grid reveal reveal-d2"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;div class="sp-slot"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;span class="sp-tier"&gt;Principal Partner&lt;/span&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;span class="sp-name"&gt;Haileybury Almaty&lt;/span&gt;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;div class="sp-slot sp-open"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;span class="sp-tier"&gt;Gold Partner&lt;/span&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;span class="sp-name"&gt;+ Become a Partner&lt;/span&gt;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;div class="sp-slot sp-open"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;span class="sp-tier"&gt;Technical Partner&lt;/span&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;span class="sp-name"&gt;+ Become a Partner&lt;/span&gt;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;div class="sp-slot sp-open"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;span class="sp-tier"&gt;Community Partner&lt;/span&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;span class="sp-name"&gt;+ Become a Partner&lt;/span&gt;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>&lt;/div&gt;</p>
-<p class="p1">&lt;/section&gt;</p>
-<p class="p2"><br></p>
-<p class="p1">&lt;!-- ════════════ CONNECT ════════════ --&gt;</p>
-<p class="p1">&lt;section class="sec" id="connect"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>&lt;div class="sec-head reveal"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;div class="sec-eyebrow"&gt;Find Us&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;h2 class="sec-title"&gt;Follow &amp;&lt;br&gt;&lt;em&gt;Connect.&lt;/em&gt;&lt;/h2&gt;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>&lt;div class="connect-grid"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;div class="cg-col reveal reveal-d1"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;ul class="soc-list"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;li class="soc-item"&gt;&lt;a href="#"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">          </span>&lt;span class="soc-platform"&gt;Instagram&lt;/span&gt;</p>
-<p class="p1"><span class="Apple-converted-space">          </span>&lt;span class="soc-handle"&gt;@nomadracers&lt;/span&gt;</p>
-<p class="p1"><span class="Apple-converted-space">          </span>&lt;span class="soc-arrow"&gt;↗&lt;/span&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;/a&gt;&lt;/li&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;li class="soc-item"&gt;&lt;a href="#"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">          </span>&lt;span class="soc-platform"&gt;LinkedIn&lt;/span&gt;</p>
-<p class="p1"><span class="Apple-converted-space">          </span>&lt;span class="soc-handle"&gt;Nomad Racers&lt;/span&gt;</p>
-<p class="p1"><span class="Apple-converted-space">          </span>&lt;span class="soc-arrow"&gt;↗&lt;/span&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;/a&gt;&lt;/li&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;li class="soc-item"&gt;&lt;a href="#"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">          </span>&lt;span class="soc-platform"&gt;YouTube&lt;/span&gt;</p>
-<p class="p1"><span class="Apple-converted-space">          </span>&lt;span class="soc-handle"&gt;Nomad Racers&lt;/span&gt;</p>
-<p class="p1"><span class="Apple-converted-space">          </span>&lt;span class="soc-arrow"&gt;↗&lt;/span&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;/a&gt;&lt;/li&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;li class="soc-item"&gt;&lt;a href="mailto:nomadracers@haileybury.kz"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">          </span>&lt;span class="soc-platform"&gt;Email&lt;/span&gt;</p>
-<p class="p1"><span class="Apple-converted-space">          </span>&lt;span class="soc-handle"&gt;nomadracers@haileybury.kz&lt;/span&gt;</p>
-<p class="p1"><span class="Apple-converted-space">          </span>&lt;span class="soc-arrow"&gt;↗&lt;/span&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;/a&gt;&lt;/li&gt;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;/ul&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;div class="cg-col reveal reveal-d2"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;p class="cg-school-label"&gt;Representing&lt;/p&gt;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;span class="cg-school-name"&gt;Haileybury Almaty&lt;/span&gt;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;p&gt;A team of student engineers, designers, and strategists from &lt;strong&gt;Almaty, Kazakhstan&lt;/strong&gt;. Whether you want to partner with us, sponsor our journey, attend one of our workshops, or simply follow our season — we'd love to hear from you.&lt;/p&gt;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;a href="mailto:nomadracers@haileybury.kz" class="btn btn-gold btn-arrow"&gt;Reach Out&lt;/a&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>&lt;/div&gt;</p>
-<p class="p1">&lt;/section&gt;</p>
-<p class="p2"><br></p>
-<p class="p1">&lt;!-- ════════════ FOOTER ════════════ --&gt;</p>
-<p class="p1">&lt;footer&gt;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>&lt;div class="footer-top"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;div class="footer-brand"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;div class="name"&gt;Nomad &lt;b&gt;Racers&lt;/b&gt;&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;div class="school"&gt;Haileybury Almaty · Almaty, Kazakhstan · F1 STEM Racing&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;div class="footer-quote"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>We adapt to the environment, optimize our resources, and outpace the horizon.</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>&lt;div class="footer-bottom"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;div class="footer-copy"&gt;© 2025 Nomad Racers — Haileybury Almaty&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;div class="footer-tagline"&gt;Innovate · Design · Race · Repeat&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>&lt;/div&gt;</p>
-<p class="p1">&lt;/footer&gt;</p>
-<p class="p2"><br></p>
-<p class="p1">&lt;!-- ════════════ JS ════════════ --&gt;</p>
-<p class="p1">&lt;script&gt;</p>
-<p class="p1">/* NAV scroll state */</p>
-<p class="p1">const nav = document.getElementById('nav');</p>
-<p class="p1">window.addEventListener('scroll', () =&gt; {</p>
-<p class="p1"><span class="Apple-converted-space">  </span>nav.classList.toggle('scrolled', window.scrollY &gt; 60);</p>
-<p class="p1">}, {passive:true});</p>
-<p class="p2"><br></p>
-<p class="p1">/* Spark particles */</p>
-<p class="p1">(function(){</p>
-<p class="p1"><span class="Apple-converted-space">  </span>const container = document.getElementById('sparks');</p>
-<p class="p1"><span class="Apple-converted-space">  </span>for(let i=0;i&lt;18;i++){</p>
-<p class="p1"><span class="Apple-converted-space">    </span>const s = document.createElement('div');</p>
-<p class="p1"><span class="Apple-converted-space">    </span>s.className = 'spark';</p>
-<p class="p1"><span class="Apple-converted-space">    </span>const left = 30 + Math.random()*40;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>const h = 60 + Math.random()*180;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>const dur = 2.5 + Math.random()*4;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>const delay = Math.random()*6;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>const r = (-8 + Math.random()*16)+'deg';</p>
-<p class="p1"><span class="Apple-converted-space">    </span>s.style.cssText = `left:${left}%;top:${20+Math.random()*30}%;height:${h}px;--r:${r};--d:${60+Math.random()*120}px;animation-duration:${dur}s;animation-delay:-${delay}s;`;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>container.appendChild(s);</p>
-<p class="p1"><span class="Apple-converted-space">  </span>}</p>
-<p class="p1">})();</p>
-<p class="p2"><br></p>
-<p class="p1">/* Scroll reveal */</p>
-<p class="p1">const revealEls = document.querySelectorAll('.reveal');</p>
-<p class="p1">const rio = new IntersectionObserver(entries=&gt;{</p>
-<p class="p1"><span class="Apple-converted-space">  </span>entries.forEach(e=&gt;{</p>
-<p class="p1"><span class="Apple-converted-space">    </span>if(e.isIntersecting){e.target.classList.add('on');rio.unobserve(e.target)}</p>
-<p class="p1"><span class="Apple-converted-space">  </span>});</p>
-<p class="p1">},{threshold:.08,rootMargin:'0px 0px -40px 0px'});</p>
-<p class="p1">revealEls.forEach(el=&gt;rio.observe(el));</p>
-<p class="p2"><br></p>
-<p class="p1">/* Stat bars */</p>
-<p class="p1">const barBlocks = document.querySelectorAll('.stat-block');</p>
-<p class="p1">const bro = new IntersectionObserver(entries=&gt;{</p>
-<p class="p1"><span class="Apple-converted-space">  </span>entries.forEach(e=&gt;{</p>
-<p class="p1"><span class="Apple-converted-space">    </span>if(e.isIntersecting){</p>
-<p class="p1"><span class="Apple-converted-space">      </span>const pct = e.target.dataset.bar || 80;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>const bar = e.target.querySelector('.stat-bar');</p>
-<p class="p1"><span class="Apple-converted-space">      </span>if(bar) setTimeout(()=&gt;bar.style.width=pct+'%',200);</p>
-<p class="p1"><span class="Apple-converted-space">      </span>bro.unobserve(e.target);</p>
-<p class="p1"><span class="Apple-converted-space">    </span>}</p>
-<p class="p1"><span class="Apple-converted-space">  </span>});</p>
-<p class="p1">},{threshold:.3});</p>
-<p class="p1">barBlocks.forEach(b=&gt;bro.observe(b));</p>
-<p class="p2"><br></p>
-<p class="p1">/* Active nav highlight */</p>
-<p class="p1">const sections = document.querySelectorAll('section[id]');</p>
-<p class="p1">const navLinks = document.querySelectorAll('.nav-items a');</p>
-<p class="p1">window.addEventListener('scroll',()=&gt;{</p>
-<p class="p1"><span class="Apple-converted-space">  </span>let cur='';</p>
-<p class="p1"><span class="Apple-converted-space">  </span>sections.forEach(s=&gt;{if(window.scrollY&gt;=s.offsetTop-80)cur=s.id});</p>
-<p class="p1"><span class="Apple-converted-space">  </span>navLinks.forEach(a=&gt;{</p>
-<p class="p1"><span class="Apple-converted-space">    </span>const active = a.getAttribute('href')==='#'+cur;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>a.style.color = active?'#C6A15B':'';</p>
-<p class="p1"><span class="Apple-converted-space">  </span>});</p>
-<p class="p1">},{passive:true});</p>
-<p class="p1">&lt;/script&gt;</p>
-<p class="p1">&lt;/body&gt;</p>
-<p class="p1">&lt;/html&gt;</p>
+
+<!-- ════════════ NAV ════════════ -->
+<nav id="nav">
+  <div class="nav-brand">
+    <img src="logo.png" style="height:38px;width:auto;" alt="Nomad Racers"/>
+    <span class="nav-name">Nomad <b>Racers</b></span>
+  </div>
+  <ul class="nav-items">
+    <li><a href="#about">About</a></li>
+    <li><a href="#team">Team</a></li>
+    <li><a href="#car">Engineering</a></li>
+    <li><a href="#stats">Performance</a></li>
+    <li><a href="#sponsors">Partners</a></li>
+    <li><a href="#connect">Connect</a></li>
+  </ul>
+  <div class="nav-right">Innovate · Design · Race · Repeat</div>
+</nav>
+
+<!-- ════════════ HERO ════════════ -->
+<section id="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-lines"></div>
+
+  <!-- sparks injected by JS -->
+  <div class="sparks" id="sparks"></div>
+
+  <div class="hero-ghost">NR</div>
+
+  <div class="hero-content">
+    <div class="hero-left">
+      <div class="hero-label">
+        <div class="hero-label-line"></div>
+        <span class="hero-label-text">F1 STEM Racing — Haileybury Almaty — Almaty, Kazakhstan</span>
+      </div>
+      <h1 class="hero-title">
+        Engineering<br>
+        <span class="gold-line">The Future</span>
+        Of Speed
+      </h1>
+    </div>
+    <div class="hero-right">
+      <p class="hero-sub">
+        We engineer a vehicle that achieves the optimal balance between <strong>aerodynamic drag reduction</strong> and structural integrity — utilizing Digital-Twin simulations to ensure peak performance.
+      </p>
+      <div class="hero-ctas">
+        <a href="#team" class="btn btn-gold btn-arrow">Meet the Team</a>
+        <a href="#car" class="btn btn-arrow">Explore Our Car</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="hero-scroll">
+    <div class="hero-scroll-line"></div>
+    <span class="hero-scroll-text">Scroll</span>
+  </div>
+  <div class="hero-bar"></div>
+</section>
+
+<!-- ════════════ MARQUEE ════════════ -->
+<div class="marquee-strip">
+  <div class="marquee-track" id="marquee">
+    <span class="marquee-item">Innovate<span class="marquee-dot"></span></span>
+    <span class="marquee-item">Design<span class="marquee-dot"></span></span>
+    <span class="marquee-item">Race<span class="marquee-dot"></span></span>
+    <span class="marquee-item">Repeat<span class="marquee-dot"></span></span>
+    <span class="marquee-item">CFD Analysis<span class="marquee-dot"></span></span>
+    <span class="marquee-item">Digital Twin<span class="marquee-dot"></span></span>
+    <span class="marquee-item">CAM Engineering<span class="marquee-dot"></span></span>
+    <span class="marquee-item">Precision Built<span class="marquee-dot"></span></span>
+    <span class="marquee-item">Innovate<span class="marquee-dot"></span></span>
+    <span class="marquee-item">Design<span class="marquee-dot"></span></span>
+    <span class="marquee-item">Race<span class="marquee-dot"></span></span>
+    <span class="marquee-item">Repeat<span class="marquee-dot"></span></span>
+    <span class="marquee-item">CFD Analysis<span class="marquee-dot"></span></span>
+    <span class="marquee-item">Digital Twin<span class="marquee-dot"></span></span>
+    <span class="marquee-item">CAM Engineering<span class="marquee-dot"></span></span>
+    <span class="marquee-item">Precision Built<span class="marquee-dot"></span></span>
+  </div>
+</div>
+
+<!-- ════════════ ABOUT ════════════ -->
+<section class="sec" id="about">
+  <div class="sec-head reveal">
+    <div class="sec-eyebrow">Engineering & Enterprise</div>
+    <h2 class="sec-title">Built to<br><em>Perform.</em></h2>
+  </div>
+  <div class="about-grid">
+    <div class="about-col reveal reveal-d1">
+      <p>Nomad Racers is a student engineering team from <strong>Haileybury Almaty</strong>, competing in the F1 STEM Racing Competition. Our goal: engineer a vehicle achieving the optimal balance between aerodynamic drag reduction and structural integrity.</p>
+      <p>We utilize <strong>Digital-Twin simulations</strong> to ensure peak performance — mirroring the real Formula One development process: CFD simulation first, precision CAD modelling second, CNC CAM manufacturing third.</p>
+      <div class="airflow-art">
+        <svg viewBox="0 0 600 140" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
+          <defs>
+            <linearGradient id="ag1" x1="0" x2="1" y1="0" y2="0">
+              <stop offset="0%" stop-color="rgba(198,161,91,0)"/>
+              <stop offset="40%" stop-color="rgba(198,161,91,0.6)"/>
+              <stop offset="100%" stop-color="rgba(198,161,91,0)"/>
+            </linearGradient>
+          </defs>
+          <!-- airflow lines around car silhouette -->
+          <path d="M0 70 Q120 30 200 68 Q280 100 380 65 Q450 38 600 68" stroke="url(#ag1)" stroke-width="0.8" fill="none" opacity="0.7"/>
+          <path d="M0 80 Q100 45 200 75 Q300 108 390 72 Q470 44 600 78" stroke="url(#ag1)" stroke-width="0.8" fill="none" opacity="0.5"/>
+          <path d="M0 60 Q130 22 210 60 Q290 95 370 58 Q440 30 600 58" stroke="url(#ag1)" stroke-width="0.6" fill="none" opacity="0.4"/>
+          <path d="M0 90 Q90 62 205 85 Q310 112 395 80 Q475 55 600 88" stroke="url(#ag1)" stroke-width="0.6" fill="none" opacity="0.4"/>
+          <path d="M0 50 Q140 15 215 52 Q295 88 365 50 Q430 22 600 48" stroke="url(#ag1)" stroke-width="0.5" fill="none" opacity="0.3"/>
+          <path d="M0 100 Q80 78 208 95 Q320 116 400 88 Q478 65 600 98" stroke="url(#ag1)" stroke-width="0.5" fill="none" opacity="0.3"/>
+          <!-- car body rough silhouette -->
+          <path d="M160 85 L175 65 L210 55 L270 50 L310 50 L345 52 L390 62 L408 78 L408 88 L160 90 Z" fill="rgba(12,11,10,0.8)" stroke="rgba(198,161,91,0.2)" stroke-width="0.5"/>
+          <!-- cockpit -->
+          <path d="M248 50 L258 36 L290 32 L320 36 L330 50 Z" fill="rgba(12,11,10,0.9)" stroke="rgba(198,161,91,0.3)" stroke-width="0.5"/>
+          <!-- halo -->
+          <path d="M260 37 Q290 26 318 37" fill="none" stroke="rgba(198,161,91,0.5)" stroke-width="2" stroke-linecap="round"/>
+          <!-- pressure zone markers -->
+          <circle cx="175" cy="72" r="3" fill="none" stroke="rgba(198,161,91,0.4)" stroke-width="0.5"/>
+          <circle cx="395" cy="70" r="3" fill="none" stroke="rgba(198,161,91,0.4)" stroke-width="0.5"/>
+          <text x="155" y="106" font-family="Inter" font-size="6" fill="rgba(198,161,91,0.4)" letter-spacing="1">HIGH PRESSURE</text>
+          <text x="360" y="106" font-family="Inter" font-size="6" fill="rgba(198,161,91,0.4)" letter-spacing="1">LOW PRESSURE</text>
+          <line x1="175" y1="95" x2="175" y2="76" stroke="rgba(198,161,91,0.3)" stroke-width="0.5" stroke-dasharray="2,2"/>
+          <line x1="395" y1="95" x2="395" y2="74" stroke="rgba(198,161,91,0.3)" stroke-width="0.5" stroke-dasharray="2,2"/>
+        </svg>
+      </div>
+    </div>
+    <div class="about-col reveal reveal-d2">
+      <p>We operate like a professional outfit — full <strong>enterprise, branding, and budget management</strong> functions running in parallel to our engineering work. Strategic lead Dariya manages partnerships while the engineering team pushes performance limits.</p>
+      <p>Beyond racing, we <strong>mentor new teams</strong>, run community workshops across Almaty, and share our technical knowledge. Teams we have mentored have gone from zero to competition-ready.</p>
+      <div class="about-quote reveal-d3">
+        "We adapt.<br>We optimize.<br>We outpace."
+      </div>
+    </div>
+  </div>
+  <div class="kpi-row">
+    <div class="kpi reveal reveal-d1"><span class="kpi-val">5</span><span class="kpi-label">Team Engineers</span></div>
+    <div class="kpi reveal reveal-d2"><span class="kpi-val">6</span><span class="kpi-label">Disciplines</span></div>
+    <div class="kpi reveal reveal-d3"><span class="kpi-val">100%</span><span class="kpi-label">Digital-Twin Process</span></div>
+    <div class="kpi reveal reveal-d4"><span class="kpi-val">∞</span><span class="kpi-label">CFD Iterations</span></div>
+  </div>
+</section>
+
+<!-- ════════════ TEAM ════════════ -->
+<section class="sec" id="team">
+  <div class="sec-head reveal">
+    <div class="sec-eyebrow">The Five Engineers</div>
+    <h2 class="sec-title">Meet the<br><em>Team.</em></h2>
+  </div>
+  <div class="team-editorial">
+
+    <div class="member reveal reveal-d1">
+      <div class="member-accent"></div>
+      <div class="member-photo">
+        <span class="member-initials">NR</span>
+      </div>
+      <div class="member-info">
+        <span class="member-name">Nurali</span>
+        <span class="member-role">Team Lead</span>
+        <p class="member-desc">Project lifecycle ownership, final strategic decisions, and regulatory compliance across the full competition.</p>
+      </div>
+    </div>
+
+    <div class="member reveal reveal-d2">
+      <div class="member-accent"></div>
+      <div class="member-photo">
+        <span class="member-initials">NI</span>
+      </div>
+      <div class="member-info">
+        <span class="member-name">Nurislam</span>
+        <span class="member-role">Lead Design & Aerodynamics Engineer</span>
+        <p class="member-desc">Computational analysis optimizing drag coefficient through laminar flow attachment and pressure-recovery mechanisms.</p>
+      </div>
+    </div>
+
+    <div class="member reveal reveal-d3">
+      <div class="member-accent"></div>
+      <div class="member-photo">
+        <span class="member-initials">IG</span>
+      </div>
+      <div class="member-info">
+        <span class="member-name">Igor</span>
+        <span class="member-role">Lead CAD, CAM & Simulation Engineer</span>
+        <p class="member-desc">High-precision 3D modelling and Digital-Twin synchronization. Translates aerodynamic theory into manufacturing-ready geometry.</p>
+      </div>
+    </div>
+
+    <div class="member reveal reveal-d4">
+      <div class="member-accent"></div>
+      <div class="member-photo">
+        <span class="member-initials">DA</span>
+      </div>
+      <div class="member-info">
+        <span class="member-name">Dariya</span>
+        <span class="member-role">Head of Marketing & Enterprise</span>
+        <p class="member-desc">Strategic lead securing high-level partnerships and maintaining the team's professional public profile.</p>
+      </div>
+    </div>
+
+    <div class="member reveal reveal-d5">
+      <div class="member-accent"></div>
+      <div class="member-photo">
+        <span class="member-initials">MI</span>
+      </div>
+      <div class="member-info">
+        <span class="member-name">Miras</span>
+        <span class="member-role">CAM Engineer & Enterprise</span>
+        <p class="member-desc">Translating complex CAD geometry into precise toolpaths and manufacturing protocols for the final car.</p>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ════════════ CAR / ENGINEERING ════════════ -->
+<section class="sec" id="car">
+  <div class="sec-head reveal">
+    <div class="sec-eyebrow">Engineering Lab</div>
+    <h2 class="sec-title">The<br><em>Machine.</em></h2>
+  </div>
+  <div class="car-grid reveal">
+    <div class="car-vis">
+      <div class="car-corner tl"></div>
+      <div class="car-corner tr"></div>
+      <div class="car-corner bl"></div>
+      <div class="car-corner br"></div>
+      <!-- annotation labels -->
+      <div class="car-label-tag" style="top:36px;left:44px;color:var(--gold)">CFD Validated Aero Package</div>
+      <div class="car-label-tag" style="bottom:36px;right:44px">Digital-Twin Sync Active</div>
+      <!-- Car SVG — gold/black livery matching real render -->
+      <svg viewBox="0 0 560 210" style="width:100%;max-width:520px;position:relative;z-index:1" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <linearGradient id="gt" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#d4ac3a"/>
+            <stop offset="50%" stop-color="#c4a030"/>
+            <stop offset="100%" stop-color="#7a5a18"/>
+          </linearGradient>
+          <linearGradient id="gb" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#1a1400"/>
+            <stop offset="100%" stop-color="#080600"/>
+          </linearGradient>
+          <filter id="gf" x="-20%" y="-20%" width="140%" height="140%">
+            <feGaussianBlur stdDeviation="3" result="b"/>
+            <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+          </filter>
+          <radialGradient id="wg" cx="50%" cy="50%" r="50%">
+            <stop offset="0%" stop-color="rgba(198,161,91,0.15)"/>
+            <stop offset="100%" stop-color="rgba(198,161,91,0)"/>
+          </radialGradient>
+        </defs>
+        <!-- glow under car -->
+        <ellipse cx="280" cy="175" rx="230" ry="35" fill="url(#wg)"/>
+        <!-- REAR WING -->
+        <rect x="46" y="72" width="72" height="12" rx="1.5" fill="url(#gt)" filter="url(#gf)"/>
+        <rect x="52" y="82" width="60" height="7" rx="1" fill="#7a5a18" opacity=".75"/>
+        <line x1="65" y1="84" x2="63" y2="112" stroke="#9a7825" stroke-width="2.5"/>
+        <line x1="102" y1="84" x2="104" y2="112" stroke="#9a7825" stroke-width="2.5"/>
+        <rect x="46" y="72" width="5" height="50" rx="1" fill="#6a5014"/>
+        <rect x="113" y="72" width="5" height="50" rx="1" fill="#6a5014"/>
+        <!-- BODY -->
+        <path d="M62 152 L80 108 L162 80 L242 66 L292 62 L342 64 L418 78 L460 102 L474 126 L472 148 L62 152Z" fill="url(#gt)"/>
+        <!-- body bottom dark -->
+        <path d="M64 148 L472 148 L462 162 L76 162Z" fill="url(#gb)"/>
+        <!-- sidepod panel -->
+        <path d="M185 95 L375 88 L385 108 L375 128 L178 130 L168 110Z" fill="rgba(0,0,0,.35)"/>
+        <!-- engine cover -->
+        <path d="M232 66 L244 40 L292 32 L336 40 L348 66Z" fill="#c4a030"/>
+        <path d="M244 66 L252 44 L292 38 L330 44 L338 66Z" fill="rgba(0,0,0,.5)"/>
+        <!-- HALO -->
+        <path d="M256 44 Q292 28 324 44" fill="none" stroke="#c4a030" stroke-width="5" stroke-linecap="round" filter="url(#gf)"/>
+        <path d="M256 44 Q292 28 324 44" fill="none" stroke="#f0d060" stroke-width="1.5" stroke-linecap="round"/>
+        <!-- gold top edge line -->
+        <path d="M80 108 L418 78" stroke="rgba(212,172,58,0.45)" stroke-width="1.5"/>
+        <!-- NOSE -->
+        <path d="M458 122 L502 114 L508 128 L508 140 L472 144Z" fill="#b89028"/>
+        <!-- FRONT WING -->
+        <path d="M474 132 L520 124 L524 140 L520 148 L472 148Z" fill="url(#gt)"/>
+        <path d="M476 142 L520 134 L522 140 L474 146Z" fill="#7a5a18" opacity=".75"/>
+        <rect x="518" y="124" width="5" height="26" rx="1" fill="#6a5014"/>
+        <!-- FLOOR + DIFFUSER -->
+        <path d="M66 162 L462 162 L452 175 L80 175Z" fill="#1a1200"/>
+        <line x1="145" y1="162" x2="140" y2="175" stroke="#2a2000" stroke-width="1.2"/>
+        <line x1="195" y1="162" x2="192" y2="175" stroke="#2a2000" stroke-width="1.2"/>
+        <line x1="245" y1="162" x2="244" y2="175" stroke="#2a2000" stroke-width="1.2"/>
+        <line x1="295" y1="162" x2="296" y2="175" stroke="#2a2000" stroke-width="1.2"/>
+        <line x1="345" y1="162" x2="348" y2="175" stroke="#2a2000" stroke-width="1.2"/>
+        <line x1="395" y1="162" x2="400" y2="175" stroke="#2a2000" stroke-width="1.2"/>
+        <!-- REAR WHEEL -->
+        <circle cx="112" cy="162" r="40" fill="#0a0800" stroke="#c4a030" stroke-width="1.5"/>
+        <circle cx="112" cy="162" r="27" fill="none" stroke="rgba(196,160,48,.18)" stroke-width="6"/>
+        <circle cx="112" cy="162" r="13" fill="none" stroke="rgba(196,160,48,.28)" stroke-width="2"/>
+        <circle cx="112" cy="162" r="7" fill="rgba(196,160,48,.25)"/>
+        <!-- rear spokes -->
+        <line x1="112" y1="148" x2="112" y2="122" stroke="rgba(196,160,48,.18)" stroke-width="1.5"/>
+        <line x1="112" y1="176" x2="112" y2="202" stroke="rgba(196,160,48,.18)" stroke-width="1.5"/>
+        <line x1="98" y1="162" x2="72" y2="162" stroke="rgba(196,160,48,.18)" stroke-width="1.5"/>
+        <line x1="126" y1="162" x2="152" y2="162" stroke="rgba(196,160,48,.18)" stroke-width="1.5"/>
+        <!-- FRONT WHEEL -->
+        <circle cx="416" cy="163" r="36" fill="#0a0800" stroke="#c4a030" stroke-width="1.5"/>
+        <circle cx="416" cy="163" r="24" fill="none" stroke="rgba(196,160,48,.18)" stroke-width="6"/>
+        <circle cx="416" cy="163" r="11" fill="none" stroke="rgba(196,160,48,.28)" stroke-width="2"/>
+        <circle cx="416" cy="163" r="6" fill="rgba(196,160,48,.25)"/>
+        <line x1="416" y1="150" x2="416" y2="127" stroke="rgba(196,160,48,.18)" stroke-width="1.5"/>
+        <line x1="416" y1="176" x2="416" y2="199" stroke="rgba(196,160,48,.18)" stroke-width="1.5"/>
+        <line x1="403" y1="163" x2="380" y2="163" stroke="rgba(196,160,48,.18)" stroke-width="1.5"/>
+        <line x1="429" y1="163" x2="452" y2="163" stroke="rgba(196,160,48,.18)" stroke-width="1.5"/>
+        <!-- NOMAD RACERS text on body -->
+        <text x="275" y="122" font-family="'Bebas Neue'" font-size="12" fill="rgba(245,235,185,.45)" text-anchor="middle" letter-spacing="5">NOMAD RACERS</text>
+      </svg>
+    </div>
+    <div class="car-specs">
+      <div class="spec-row"><span class="spec-key">Design Method</span><span class="spec-val">Digital-Twin Simulation</span></div>
+      <div class="spec-row"><span class="spec-key">Aero Analysis</span><span class="spec-val">CFD — Laminar Flow</span></div>
+      <div class="spec-row"><span class="spec-key">3D Modelling</span><span class="spec-val">High-Precision CAD</span></div>
+      <div class="spec-row"><span class="spec-key">Manufacturing</span><span class="spec-val">CNC / CAM Toolpaths</span></div>
+      <div class="spec-row"><span class="spec-key">Optimisation</span><span class="spec-val">Drag Coefficient</span></div>
+      <div class="spec-row"><span class="spec-key">Flow Strategy</span><span class="spec-val">Pressure-Recovery</span></div>
+      <div class="spec-row"><span class="spec-key">Livery</span><span class="spec-val">Gold & Black</span></div>
+      <div class="spec-row"><span class="spec-key">Geometry Output</span><span class="spec-val">Mfg-Ready Format</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════ STATS ════════════ -->
+<section class="sec" id="stats">
+  <div class="stats-inner">
+    <div class="sec-eyebrow reveal">Performance Portfolio</div>
+    <h2 class="sec-title reveal reveal-d1">Precision<br><em>Numbers.</em></h2>
+    <div class="stats-grid">
+
+      <div class="stat-block reveal reveal-d1" data-bar="82">
+        <span class="stat-label">Aerodynamics</span>
+        <span class="stat-num">82<span class="stat-unit">%</span></span>
+        <p class="stat-desc">Drag coefficient optimization achieved through iterative CFD simulation and laminar flow analysis.</p>
+        <div class="stat-bar-wrap"><div class="stat-bar"></div></div>
+      </div>
+
+      <div class="stat-block reveal reveal-d2" data-bar="95">
+        <span class="stat-label">Manufacturing</span>
+        <span class="stat-num">±0.1<span class="stat-unit">mm</span></span>
+        <p class="stat-desc">CNC manufacturing precision from CAM toolpaths — CAD geometry reproduced to within 0.1mm tolerance.</p>
+        <div class="stat-bar-wrap"><div class="stat-bar"></div></div>
+      </div>
+
+      <div class="stat-block reveal reveal-d3" data-bar="70">
+        <span class="stat-label">Digital-Twin Sync</span>
+        <span class="stat-num">100<span class="stat-unit">%</span></span>
+        <p class="stat-desc">Full simulation-to-physical parity. Every design decision validated in the digital environment before manufacture.</p>
+        <div class="stat-bar-wrap"><div class="stat-bar"></div></div>
+      </div>
+
+      <div class="stat-block reveal reveal-d1" data-bar="60">
+        <span class="stat-label">CAD Development</span>
+        <span class="stat-num">6</span>
+        <p class="stat-desc">Complete design disciplines covered: aerodynamics, CAD, CAM, branding, budget, and enterprise.</p>
+        <div class="stat-bar-wrap"><div class="stat-bar"></div></div>
+      </div>
+
+      <div class="stat-block reveal reveal-d2" data-bar="88">
+        <span class="stat-label">Team Output</span>
+        <span class="stat-num">5</span>
+        <p class="stat-desc">Student engineers delivering across every dimension of a professional motorsport programme.</p>
+        <div class="stat-bar-wrap"><div class="stat-bar"></div></div>
+      </div>
+
+      <div class="stat-block reveal reveal-d3" data-bar="75">
+        <span class="stat-label">Community Impact</span>
+        <span class="stat-num">4+</span>
+        <p class="stat-desc">Workshops delivered, new teams mentored, and community engineering sessions run across Almaty.</p>
+        <div class="stat-bar-wrap"><div class="stat-bar"></div></div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ════════════ SPONSORS ════════════ -->
+<section class="sec" id="sponsors">
+  <div class="sponsors-inner">
+    <div class="sec-eyebrow reveal">Partners & Sponsors</div>
+    <h2 class="sec-title reveal reveal-d1">Who Backs<br><em>Us.</em></h2>
+    <div class="sp-grid reveal reveal-d2">
+      <div class="sp-slot">
+        <span class="sp-tier">Principal Partner</span>
+        <span class="sp-name">Haileybury Almaty</span>
+      </div>
+      <div class="sp-slot sp-open">
+        <span class="sp-tier">Gold Partner</span>
+        <span class="sp-name">+ Become a Partner</span>
+      </div>
+      <div class="sp-slot sp-open">
+        <span class="sp-tier">Technical Partner</span>
+        <span class="sp-name">+ Become a Partner</span>
+      </div>
+      <div class="sp-slot sp-open">
+        <span class="sp-tier">Community Partner</span>
+        <span class="sp-name">+ Become a Partner</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════ CONNECT ════════════ -->
+<section class="sec" id="connect">
+  <div class="sec-head reveal">
+    <div class="sec-eyebrow">Find Us</div>
+    <h2 class="sec-title">Follow &<br><em>Connect.</em></h2>
+  </div>
+  <div class="connect-grid">
+    <div class="cg-col reveal reveal-d1">
+      <ul class="soc-list">
+        <li class="soc-item"><a href="#">
+          <span class="soc-platform">Instagram</span>
+          <span class="soc-handle">@nomadracers</span>
+          <span class="soc-arrow">↗</span>
+        </a></li>
+        <li class="soc-item"><a href="#">
+          <span class="soc-platform">LinkedIn</span>
+          <span class="soc-handle">Nomad Racers</span>
+          <span class="soc-arrow">↗</span>
+        </a></li>
+        <li class="soc-item"><a href="#">
+          <span class="soc-platform">YouTube</span>
+          <span class="soc-handle">Nomad Racers</span>
+          <span class="soc-arrow">↗</span>
+        </a></li>
+        <li class="soc-item"><a href="mailto:nomadracers@haileybury.kz">
+          <span class="soc-platform">Email</span>
+          <span class="soc-handle">nomadracers@haileybury.kz</span>
+          <span class="soc-arrow">↗</span>
+        </a></li>
+      </ul>
+    </div>
+    <div class="cg-col reveal reveal-d2">
+      <p class="cg-school-label">Representing</p>
+      <span class="cg-school-name">Haileybury Almaty</span>
+      <p>A team of student engineers, designers, and strategists from <strong>Almaty, Kazakhstan</strong>. Whether you want to partner with us, sponsor our journey, attend one of our workshops, or simply follow our season — we'd love to hear from you.</p>
+      <a href="mailto:nomadracers@haileybury.kz" class="btn btn-gold btn-arrow">Reach Out</a>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════ FOOTER ════════════ -->
+<footer>
+  <div class="footer-top">
+    <div class="footer-brand">
+      <div class="name">Nomad <b>Racers</b></div>
+      <div class="school">Haileybury Almaty · Almaty, Kazakhstan · F1 STEM Racing</div>
+    </div>
+    <div class="footer-quote">
+      We adapt to the environment, optimize our resources, and outpace the horizon.
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <div class="footer-copy">© 2025 Nomad Racers — Haileybury Almaty</div>
+    <div class="footer-tagline">Innovate · Design · Race · Repeat</div>
+  </div>
+</footer>
+
+<!-- ════════════ JS ════════════ -->
+<script>
+/* NAV scroll state */
+const nav = document.getElementById('nav');
+window.addEventListener('scroll', () => {
+  nav.classList.toggle('scrolled', window.scrollY > 60);
+}, {passive:true});
+
+/* Spark particles */
+(function(){
+  const container = document.getElementById('sparks');
+  for(let i=0;i<18;i++){
+    const s = document.createElement('div');
+    s.className = 'spark';
+    const left = 30 + Math.random()*40;
+    const h = 60 + Math.random()*180;
+    const dur = 2.5 + Math.random()*4;
+    const delay = Math.random()*6;
+    const r = (-8 + Math.random()*16)+'deg';
+    s.style.cssText = `left:${left}%;top:${20+Math.random()*30}%;height:${h}px;--r:${r};--d:${60+Math.random()*120}px;animation-duration:${dur}s;animation-delay:-${delay}s;`;
+    container.appendChild(s);
+  }
+})();
+
+/* Scroll reveal */
+const revealEls = document.querySelectorAll('.reveal');
+const rio = new IntersectionObserver(entries=>{
+  entries.forEach(e=>{
+    if(e.isIntersecting){e.target.classList.add('on');rio.unobserve(e.target)}
+  });
+},{threshold:.08,rootMargin:'0px 0px -40px 0px'});
+revealEls.forEach(el=>rio.observe(el));
+
+/* Stat bars */
+const barBlocks = document.querySelectorAll('.stat-block');
+const bro = new IntersectionObserver(entries=>{
+  entries.forEach(e=>{
+    if(e.isIntersecting){
+      const pct = e.target.dataset.bar || 80;
+      const bar = e.target.querySelector('.stat-bar');
+      if(bar) setTimeout(()=>bar.style.width=pct+'%',200);
+      bro.unobserve(e.target);
+    }
+  });
+},{threshold:.3});
+barBlocks.forEach(b=>bro.observe(b));
+
+/* Active nav highlight */
+const sections = document.querySelectorAll('section[id]');
+const navLinks = document.querySelectorAll('.nav-items a');
+window.addEventListener('scroll',()=>{
+  let cur='';
+  sections.forEach(s=>{if(window.scrollY>=s.offsetTop-80)cur=s.id});
+  navLinks.forEach(a=>{
+    const active = a.getAttribute('href')==='#'+cur;
+    a.style.color = active?'#C6A15B':'';
+  });
+},{passive:true});
+</script>
 </body>
 </html>
